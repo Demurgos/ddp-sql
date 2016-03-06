@@ -5989,7 +5989,9 @@ Les contraintes ayant déjà été mises en place, il n’y a pas eu besoin de l
 
 Nous avons alors modifié le synonyme impliqué pour bénéficier de l’apport de cette vue matérialisée.
 
+````sql
 CREATE OR REPLACE SYNONYM CATEGORIES FOR MV_CATEGORIES;
+````
 
 #### c) Mise en place du réplicat du fragment PRODUITS
 
@@ -6373,6 +6375,7 @@ Nous avons répliqué la table Fournisseurs en REFRESH FAST, avec un rafraîchis
 
 -- Réplication de la table Fournisseurs en REFRESH FAST sur le site d’amérique
 
+````sql
 CREATE MATERIALIZED VIEW MV_Fournisseurs
 
 REFRESH FAST
@@ -6384,6 +6387,7 @@ AS
 SELECT *
 
 FROM csamborski.Fournisseurs@link_A_EuN;
+````
 
 ##### (2) Message émis au site maître
 
@@ -6393,6 +6397,7 @@ Nous avons demandé à csamborski, gestionnaire de la table Fournisseurs, de met
 
 Nous avons vérifier que la table répliqué localement et la table présente chez csamborski contenaient les mêmes tuples.
 
+````sql
 SELECT COUNT(*)
 
 FROM (
@@ -6418,6 +6423,7 @@ FROM (
     SELECT * FROM csamborski.Fournisseurs@LINK_A_EuN)
 
 );
+````
 
 Par ailleurs, nous avons également vérifier que lors de l’ajout ou de la suppression d’un tuple dans la table de Fournisseurs sur le site d’Europe du Sud, cette modification apparaît après le délai de rafraîchissement indiqué.
 
@@ -6425,7 +6431,9 @@ Par ailleurs, nous avons également vérifier que lors de l’ajout ou de la sup
 
 Le synonyme de Fournisseurs devient 
 
+````sql
 CREATE OR REPLACE SYNONYM Fournisseurs FOR MV_Fournisseurs;
+````
 
 En effet, ainsi il ne va plus chercher la table Fournisseurs distantes, mais bien la table locale.
 
@@ -6439,17 +6447,19 @@ Le réplicat Produits suit la même logique que Fournisseurs. Il faut juste pens
 
 Nous avons ensuite créer le réplicat Catégories en REFRESH COMPLETE.
 
+````sql
 CREATE MATERIALIZED VIEW MV_Categories
 
 REFRESH COMPLETE
 
-NEXT sysdate + (86400/86400)
+NEXT sysdate + (86400/86400) -- 1 day: 86400 sec / 86400 sec
 
 AS
 
 SELECT *
 
 FROM Categories;
+````
 
 ##### (2) Message émis au site maître
 
@@ -6457,6 +6467,7 @@ Lors d’une réplication complète, le système recopie toute la table du site 
 
 ##### (3) Tests de vérification du bon fonctionnement de la réplication
 
+````sql
 SELECT COUNT(*)
 
 FROM (
@@ -6482,6 +6493,7 @@ FROM (
     SELECT * FROM dbrunet.Categories@LINK_A_EuS)
 
 );
+````
 
 ##### (4) Evolution des synonymes
 
@@ -6561,11 +6573,13 @@ Nous avons enfin exécuté quelques requêtes permettant d’observer l’action
 
 Pour la 1ère requête, nous avons effectué une jointure entre la base EMPLOYES, d’abord non répliquée, avec la table COMMANDES, générée par une vue optimisée, via la commande suivante :
 
+````sql
 SELECT *
 
 FROM EMPLOYES, COMMANDES
 
 WHERE EMPLOYES.NO_EMPLOYE=COMMANDES.NO_EMPLOYE;
+````
 
 #### a) Résultat d’exécution
 
@@ -6661,11 +6675,11 @@ Lorsque la table EMPLOYES est répliquée, on se rend compte que l’optimiseur 
 
 On vérifie que notre trigger qui implémente la contrainte de clé étrangère sur STOCK_EUN rejette bien les requêtes si la clé n’existe pas. (Ici la clé 14007).
 
+````sql
 -- TRIGGERS
-
 -- FK STOCK_EUN
-
 INSERT INTO STOCK_EUN Values(14007, 'Allemagne', 15, 8, 0);
+````
 
 ## C. Site Amérique
 
