@@ -2119,6 +2119,7 @@ CREATE SYNONYM DETAILS_COMMANDES_AUTRES FOR csamborski.DETAILS_COMMANDES_AUTRES@
 
 Nous avons par la suite créé des vues afin de manipuler les mêmes tables que celles présentes dans la base en mode centralisée (Ryori) de la manière suivante :
 
+````sql
 -- Création de la vue CLIENTS, regroupant les trois fragments de la table Ryori.CLIENTS
 
 CREATE OR REPLACE VIEW Clients AS (
@@ -2414,9 +2415,11 @@ CREATE OR REPLACE VIEW Clients AS (
   AND pays <> 'Venezuela'
 
 );
+````
 
 Remarque : Nous avons opéré de la même manière pour la table STOCK. 
 
+````sql
 -- Création de la vue COMMANDES, regroupant les trois fragments de la table Ryori.COMMANDES
 
 CREATE OR REPLACE VIEW Commandes AS (
@@ -2712,6 +2715,7 @@ CREATE OR REPLACE VIEW Commandes AS (
   AND pays <> 'Venezuela'
 
 );
+````
 
 Remarque : Nous avons opéré de la même manière pour la table DETAILS_COMMANDES.
 
@@ -2719,12 +2723,15 @@ Remarque : Nous avons opéré de la même manière pour la table DETAILS_COMMAND
 
 La table PAYS_CONTINENTS nous ayant permis de construire nos tables a été par la suite supprimée, via la commande :
 
+````sql
 DROP TABLE PAYS_CONTINENTS;
+````
 
 #### h) Tests de vérification du bon fonctionnement
 
 Après la mise en place des synonymes, des tables et des vues, nous avons vérifié que les données présentes en local correspondaient exactement à ce qui se trouvait sur la base centralisée Ryori via l’utilisation de requêtes SQL (en utilisant les opérations UNION ALL et MINUS).
 
+````sql
 -- Test CLIENTS
 
 SELECT COUNT(*)
@@ -2754,9 +2761,9 @@ FROM (
   )
 
 );
-
+````
  
-
+````sql
 -- Test EMPLOYES
 
 SELECT COUNT(*)
@@ -2786,9 +2793,9 @@ FROM (
   )
 
 );
-
+````
  
-
+````sql
 -- Test COMMANDES
 
 SELECT COUNT(*)
@@ -2818,9 +2825,9 @@ FROM (
   )
 
 );
-
+````
  
-
+`````sql
 -- Test DETAILS_COMMANDES
 
 SELECT COUNT(*)
@@ -2850,9 +2857,9 @@ FROM (
   )
 
 );
-
+````
  
-
+````sql
 -- Test STOCK
 
 SELECT COUNT(*)
@@ -2882,9 +2889,9 @@ FROM (
   )
 
 );
-
+````
  
-
+````sql
 -- Test PRODUITS
 
 SELECT COUNT(*)
@@ -2914,9 +2921,9 @@ FROM (
   )
 
 );
-
+````
  
-
+`````sql
 -- Test CATEGORIES
 
 SELECT COUNT(*)
@@ -2946,9 +2953,9 @@ FROM (
   )
 
 );
-
+````
  
-
+````sql
 -- Test FOURNISSEURS
 
 SELECT COUNT(*)
@@ -2978,9 +2985,11 @@ FROM (
   )
 
 );
+````
 
 Réponses :
 
+````txt
 0
 
 0
@@ -2996,7 +3005,7 @@ Réponses :
 0
 
 0
-
+````
 Conclusion : Les tuples sont présents à l’identique dans les tables nouvellement créées et dans la base centralisée.
 
 ### 3. Site Amérique
@@ -3011,6 +3020,7 @@ Le site Amérique est sous la responsabilité du binôme **B3234**
 
 #### b) Création des liens entre les bases
 
+````sql
 -- Création des liens
 
 CREATE DATABASE LINK link_A_R connect to frobion identified by mdporacle using 'DB1';
@@ -3018,11 +3028,13 @@ CREATE DATABASE LINK link_A_R connect to frobion identified by mdporacle using '
 CREATE DATABASE LINK link_A_EuN CONNECT TO frobion IDENTIFIED BY mdporacle USING 'DB2';
 
 CREATE DATABASE LINK link_A_EuS CONNECT TO frobion IDENTIFIED BY mdporacle USING 'DB3';
+````
 
 #### c) Création et peuplement des tables
 
 Nous avons crée les tables grâce à une requête. Ainsi, les tables sont directement remplies, et les contraintes de types "Check" sont préservé. 
 
+````sql
 CREATE TABLE Clients_A AS (
 
   SELECT *
@@ -3040,7 +3052,9 @@ CREATE TABLE Clients_A AS (
   )
 
 );
+````
 
+````sql
 CREATE TABLE Stock_A AS (
 
   SELECT *
@@ -3058,7 +3072,8 @@ CREATE TABLE Stock_A AS (
   )
 
 );
-
+````
+````sql
 CREATE TABLE Commandes_A AS (
 
   SELECT Co.*
@@ -3076,7 +3091,8 @@ CREATE TABLE Commandes_A AS (
   )
 
 );
-
+````
+````sql
 CREATE TABLE Details_Commandes_A AS (
 
   SELECT DC.*
@@ -3096,6 +3112,7 @@ CREATE TABLE Details_Commandes_A AS (
   )
 
 );
+````
 
 #### d) Contraintes d’intégrité
 
@@ -3103,6 +3120,7 @@ Les contraintes d’intégrité se sont fait en deux temps:
 
 Premièrement, toutes les contraintes qui pouvaient s’exprimer en locale, grâce à des contraintes de types primary key ou foreign key ont été effectué en ajoutant ces contraintes aux tables correspondantes. Puis, les autres contraintes qui utilisaient les tables présentes sur des sites distant ont été réalisé avec des triggers.
 
+````sql
 -- Création des contraintes n'utilisant que des tables locales.
 
 -- Ajout des clés primaires
@@ -3117,7 +3135,7 @@ ALTER TABLE Details_Commandes_A ADD CONSTRAINT PK_Details_Commandes_A PRIMARY KE
 
 ALTER TABLE Employes ADD CONSTRAINT PK_Employes PRIMARY KEY (no_employe);
 
---Ajout des clés étrangères possible
+--Ajout des clés étrangères qui fonctionnent en local
 
 ALTER TABLE Commandes_A ADD CONSTRAINT FK_Commandes_A_Clients_A 
 
@@ -3134,7 +3152,9 @@ ALTER TABLE Details_Commandes_A ADD CONSTRAINT FK_DC_A_Commandes_A
 ALTER TABLE Commandes_A ADD CONSTRAINT FK_Commandes_A_Employes
 
   FOREIGN KEY (no_employe) REFERENCES Employes (no_employe);
+````
 
+````sql
 --Création des contraintes utilisant des tables non locales, avec des triggers.
 
 -- Clé étrangère de Stock_A vers Produit
@@ -3182,7 +3202,8 @@ EXCEPTION
 END;
 
 /
-
+````
+````sql
 -- Table Details_Commandes_A
 
 -- ALTER TABLE Details_Commandes_A ADD CONSTRAINT FK_DC_A_Produits
@@ -3228,6 +3249,9 @@ EXCEPTION
 END;
 
 /
+````
+
+````sql
 
 -- clé étrangère de Commandes_<suffixe> vers Employes
 
@@ -3272,11 +3296,13 @@ EXCEPTION
       || TO_CHAR(:OLD.no_employe));
 
 END;
+````
 
 #### e) Droits d’accès
 
 Nous avons décidé de donner tous les droits d’accès (insertion, mise à jour, suppression, séléction) à tous les membres du groupes sur toutes les tables. Ainsi, ils pourront utiliser la table exactement comme si elle était centralisé.
 
+````sql
 GRANT INSERT, UPDATE, DELETE, SELECT
 
 ON Clients_A TO dbrunet, csamborski;
@@ -3296,9 +3322,11 @@ ON Stock_A TO dbrunet, csamborski;
 GRANT INSERT, UPDATE, DELETE, SELECT
 
 ON Employes TO dbrunet, csamborski;
+````
 
 #### f) Définition de synonymes et de vues pour interrogation de la base comme si elle était en centralisé.
 
+````sql
 -- Creation synonyme du site Europe du Sud
 
 CREATE OR REPLACE SYNONYM Categories FOR dbrunet.Categories@Link_A_EuS;
@@ -3332,9 +3360,11 @@ CREATE OR REPLACE SYNONYM Commandes_Autres FOR csamborski.Commandes_Autres@Link_
 CREATE OR REPLACE SYNONYM Details_Commandes_Autres FOR csamborski.Details_Commandes_Autres@Link_A_EuN;
 
 CREATE OR REPLACE SYNONYM Stock_Autres FOR csamborski.Stock_Autres@Link_A_EuN;
+````
 
 Lors de la création des vues, nous avons mis des clauses WHERE qui ne serviront pas pour filtrer des tuples. En effet, dans la table Client_EuN, on est certain que le pays est Norvege ou Suede ou Danemark… Cependant, cela permet ensuite à l’optimiseur de simplifier les requêtes, lorsqu’il doit les envoyer sur des tables distantes.
 
+````sql
 -- Création des vues, pour pouvoir interagir avec la base comme si elle était centralisé
 
 CREATE OR REPLACE VIEW Clients AS (
@@ -3630,7 +3660,9 @@ CREATE OR REPLACE VIEW Clients AS (
   OR pays = 'Venezuela')
 
 );
+````
 
+````sql
 CREATE OR REPLACE VIEW Stock AS (
 
   SELECT *
@@ -3924,7 +3956,9 @@ CREATE OR REPLACE VIEW Stock AS (
   OR pays = 'Venezuela')
 
 );
+````
 
+````sql
 CREATE OR REPLACE VIEW Commandes AS (
 
   SELECT Co_EuN.*
@@ -4520,17 +4554,17 @@ CREATE OR REPLACE VIEW Details_Commandes AS (
   OR pays = 'Venezuela')
 
 );
+````
 
 #### g) Nettoyages éventuels
 
-Nous n’avons pas inséré de  tuples dans les tables. Nous n’avons donc pas de nettoyages à faire dans celles-ci. Nous pouvons cependant supprimer la table qui nous a servie à créer les tables fragmentées, Pays_Continent
-
-DROP TABLE Pays_Continent; 
+Nous n’avons pas inséré de  tuples dans les tables. Nous n’avons donc pas de nettoyages à faire dans celles-ci. Nous gardons la table Pays_Continent car elle sert pour les vues.
 
 #### h) Tests de vérification du bon fonctionnement
 
 Nous avons testé, pour chaque table, que tous les tuples présents dans la nouvelle table, ou vue, est présent dans la table de Ryori, et inversement.
 
+````sql
 -- Test CLIENTS
 
 SELECT COUNT(*)
@@ -4560,9 +4594,9 @@ FROM (
   )
 
 );
-
+````
  
-
+`````sql
 -- Test EMPLOYES
 
 SELECT COUNT(*)
@@ -4592,9 +4626,9 @@ FROM (
   )
 
 );
-
+````
  
-
+````sql
 -- Test COMMANDES
 
 SELECT COUNT(*)
@@ -4624,9 +4658,9 @@ FROM (
   )
 
 );
-
+````
  
-
+````sql
 -- Test DETAILS_COMMANDES
 
 SELECT COUNT(*)
@@ -4656,9 +4690,9 @@ FROM (
   )
 
 );
-
+````
  
-
+````sql
 -- Test STOCK
 
 SELECT COUNT(*)
@@ -4688,9 +4722,9 @@ FROM (
   )
 
 );
-
+````
  
-
+````sql
 -- Test PRODUITS
 
 SELECT COUNT(*)
@@ -4720,9 +4754,9 @@ FROM (
   )
 
 );
-
+````
  
-
+````sql
 -- Test CATEGORIES
 
 SELECT COUNT(*)
@@ -4752,9 +4786,9 @@ FROM (
   )
 
 );
-
+````
  
-
+````sql
 -- Test FOURNISSEURS
 
 SELECT COUNT(*)
@@ -4784,6 +4818,7 @@ FROM (
   )
 
 );
+````
 
 Le résultat de chacune des requêtes ci-dessus est 0, ce qui signifie qu’il n’y a eu ni suppression, ni création de tuple lors de la fragmentation.
 
@@ -4797,6 +4832,7 @@ Nous avons effectué chaque requête en deux exemplaires : pour l’une, la vue 
 
 Par exemple, la vue CLIENTS fut créée ainsi :
 
+````sql
 CREATE OR REPLACE VIEW CLIENT AS (
 
 SELECT  *
@@ -4822,14 +4858,17 @@ SELECT *
 FROM CLIENTS_Autres
 
 );
+````
 
 ### 1. Requête 1
 
 Pour la 1ère requête, nous avons sélectionné l’ensemble des Clients atteignables via notre vue, avec la commande suivante :
 
+````sql
 SELECT *
 
 FROM CLIENTS;
+````
 
 #### a) Résultat d’exécution
 
@@ -4923,11 +4962,13 @@ Ici, à l’inverse, les prédicats ayant permis de créer la table CLIENTS_EuS 
 
 Pour la 2ème requête, nous avons sélectionné tout des clients présents sur notre site, à partir d’une sélection sur leur pays, via la commande suivante :
 
+````sql
 SELECT *
 
 FROM CLIENTS
 
 WHERE PAYS IN (‘Italie’, ‘Portugal’, ‘Espagne’);
+````
 
 #### a) Résultat d’exécution
 
@@ -5023,9 +5064,11 @@ De même, comme dans le cas précédent, les tuples hors zone sont aussi interro
 
 Pour la 3ème requête, nous avons sélectionné tout les clients présents sur notre site, à partir de notre table locale, via la commande suivante :
 
+````sql
 SELECT *
 
 FROM CLIENTS_EuS;
+````
 
 #### a) Résultat d’exécution
 
@@ -5119,11 +5162,13 @@ L’exécution est clairement identique, la requête est suffisamment simple pou
 
 Pour la 4ème requête, nous avons sélectionné des Clients présents dans plusieurs des sites, dont le nôtre, avec une sélection sur leur pays, via la commande suivante :
 
+````sql
 SELECT *
 
 FROM CLIENTS
 
 WHERE PAYS IN (‘France’, ‘Italie’, ‘Mexique’);
+````
 
 #### a) Résultat d’exécution
 
@@ -5217,7 +5262,9 @@ A l’inverse, la table locale est ici consultée sur la correspondance de l’a
 
 ### 1. Requête 1
 
+`````sql
 SELECT * FROM CLIENTS;
+````
 
 #### a) résultat d’exécution
 
@@ -5299,7 +5346,9 @@ Optimiser la vue en faisant apparaître les prédicat ne semble pas être utile 
 
 ### 2. Requête 2
 
+````sql
 select * from clients where pays in ('Pologne', 'Finlande');
+````
 
 #### a) résultat d’exécution
 
@@ -5371,7 +5420,9 @@ Avec une vue CLIENTS qui fait apparaître les prédicats qui ont servis à défi
 
 ### 3. Requête 3
 
+````sql
 select * from clients_EuN;
+````
 
 #### a) résultat d’exécution
 
@@ -5453,7 +5504,9 @@ L’optimisation de la vue client n’a pas d’effet sur cette requête (cette 
 
 ### 1. Requête 1
 
+````sql
 SELECT * FROM CLIENTS;
+````
 
 #### a) résultat d’exécution
 
@@ -5535,7 +5588,9 @@ On voit ici qu’une sélection a été rajoutée sur CLIENTS_A. Dans ce cas-ci 
 
 ### 2. Requête 2
 
+````sql
 select * from clients where pays in ('Bolivie', 'Perou');
+````
 
 #### a) résultat d’exécution
 
@@ -5723,6 +5778,7 @@ Nous avons adopté une fréquence de rafraîchissement de  5 minutes pour chaque
 
 Nous avons tout d’abord répliqué la table EMPLOYES, en REFRESH FAST, table présente dans le site Amerique. Un système de rafraîchissement toutes les 5 minutes a été adopté.
 
+````sql
 -- Réplication de la table EMPLOYES en REFRESH FAST
 
 DROP MATERIALIZED VIEW MV_EMPLOYES;
@@ -5736,6 +5792,7 @@ NEXT sysdate + (300/86400)
 AS
 
 SELECT * FROM EMPLOYES;
+````
 
 ##### (2) Message émis au site maître
 
@@ -5749,6 +5806,7 @@ Il a créé ce log et nous a accordé les droits de sélection dessus pour que n
 
 Nous avons vérifié que chaque tuple présent dans la table Ryori était également présent dans la table répliquée, et inversement.
 
+````sql
 -- Test EMPLOYES 
 
 SELECT COUNT(*)
@@ -5778,7 +5836,7 @@ FROM (
   )
 
 );
-
+````
  
 
 Réponse :
@@ -5805,6 +5863,7 @@ CREATE OR REPLACE SYNONYM EMPLOYES FOR MV_EMPLOYES;
 
 Nous avons par la suite répliqué la table CATEGORIES, en REFRESH COMPLETE, table présente dans le site Europe du Sud.
 
+````sql
 -- Réplication de la table CATEGORIES en REFRESH COMPLETE
 
 DROP MATERIALIZED VIEW MV_CATEGORIES;
@@ -5818,6 +5877,7 @@ NEXT sysdate + (300/86400)
 AS
 
 SELECT * FROM CATEGORIES;
+````
 
 ##### (2) Message émis au site maître
 
@@ -5827,6 +5887,7 @@ Les droits sur cette table nous ayant été accordés plus tôt, aucune synchron
 
 Nous avons vérifié que chaque tuple présent dans la table Ryori était également présent dans la table répliquée, et inversement.
 
+`````sql
 -- Test CATEGORIES
 
 SELECT COUNT(*)
@@ -5856,7 +5917,7 @@ FROM (
   )
 
 );
-
+````
   
 
  
@@ -5885,6 +5946,7 @@ CREATE OR REPLACE SYNONYM CATEGORIES FOR MV_CATEGORIES;
 
 Nous ensuite répliqué la table PRODUITS, en REFRESH FAST, table présente dans le site Europe du Sud. Un système de rafraîchissement toutes les 5 minutes a été adopté..
 
+````sql
 -- Réplication de la table PRODUITS en REFRESH FAST
 
 DROP MATERIALIZED VIEW MV_PRODUITS;
@@ -5898,6 +5960,7 @@ NEXT sysdate + (300/86400)
 AS
 
 SELECT * FROM PRODUITS;
+````
 
 ##### (2) Message émis au site maître
 
@@ -5911,6 +5974,7 @@ Il a créé ce log et nous a accordé les droits de sélection dessus pour que n
 
 Nous avons vérifié que chaque tuple présent dans la table Ryori était également présent dans la table répliquée, et inversement.
 
+````sql
 -- Test PRODUITS
 
 SELECT COUNT(*)
@@ -5940,7 +6004,7 @@ FROM (
   )
 
 );
-
+````
  
 
 Réponse :
@@ -5959,7 +6023,9 @@ Les contraintes ayant déjà été mises en place, il n’y a pas eu besoin de l
 
 Nous avons alors modifié le synonyme impliqué pour bénéficier de l’apport de cette vue matérialisée.
 
+````sql
 CREATE OR REPLACE SYNONYM PRODUITS FOR MV_PRODUITS;
+````
 
 ### 6. Demandes d’autres sites portant sur des fragments gérés localement
 
@@ -5979,11 +6045,13 @@ Ainsi, nous avons fait un LOG sur la table FOURNISSEURS, et nous leur avons donn
 
 ###### (c) Opérations réalisées en local
 
+````sql
 CREATE MATERIALIZED VIEW LOG ON FOURNISSEURS;
 
 GRANT SELECT ON MLOG$_FOURNISSEURS TO FROBION;
 
 GRANT ON MLOG$_FOURNISSEURS TO DBRUNET;
+````
 
 ## B. Mise en oeuvre des réplications sur le site Europe du Sud
 
@@ -6027,6 +6095,7 @@ Par ailleurs, les deux tables auraient pu être rechargées en REFRESH COMPLETE,
 
 Nous avons donc tout d’abord répliqué la table EMPLOYES, en REFRESH FAST, table présente dans le site Amérique. Un système de rafraîchissement journalier a été adopté.
 
+````sql
 -- Réplication de la table EMPLOYES en REFRESH FAST sur le site Europe du Sud
 
 CREATE  MATERIALIZED VIEW MV_EMPLOYES
@@ -6040,6 +6109,7 @@ AS
 SELECT *
 
 FROM frobion.EMPLOYES@LINK_A;
+````
 
 ##### (2) Message émis au site maître
 
@@ -6053,6 +6123,7 @@ Il a créé ce log et nous a accordé les droits de sélection dessus pour que n
 
 Nous avons vérifié que chaque tuple présent dans la table Ryori était également présent dans la table répliquée, et inversement. 
 
+````sql
 -- Test EMPLOYES 
 
 SELECT COUNT(*)
@@ -6082,7 +6153,7 @@ FROM (
   )
 
 );
-
+````
  
 
 Réponse :
@@ -6111,6 +6182,7 @@ CREATE OR REPLACE SYNONYM EMPLOYES FOR MV_EMPLOYES;
 
 Nous avons par la suite répliqué la table FOURNISSEURS, en REFRESH COMPLETE, table présente dans le site Europe du Nord. Un système de rafraîchissement journalier à été adopté.
 
+````sql
 -- Réplication de la table FOURNISSEURS en REFRESH COMPLETE sur le site Europe du Sud
 
 CREATE  MATERIALIZED VIEW MV_FOURNISSEURS
@@ -6124,6 +6196,7 @@ AS
 SELECT *
 
 FROM csamborski.FOURNISSEURS@LINK_EuN;
+````
 
 ##### (2) Message émis au site maître
 
@@ -6131,6 +6204,7 @@ Les droits sur cette table nous ayant été accordés plus tôt, aucune synchron
 
 ##### (3) Tests de vérification de bon fonctionnement de la réplication
 
+````sql
 -- Test FOURNISSEURS
 
 SELECT COUNT(*)
@@ -6160,6 +6234,7 @@ FROM (
   )
 
 );
+````
 
 Réponse :
 
