@@ -657,7 +657,8 @@ CREATE TABLE Clients_EuN AS (
   WHERE C.pays IN (SELECT * FROM PAYS_EUN)
 
 );
-
+````
+````sql
 -- Création de la table des stocks locaux
 
 CREATE TABLE Stock_EuN AS (
@@ -669,7 +670,8 @@ CREATE TABLE Stock_EuN AS (
   WHERE S.pays IN (SELECT * FROM PAYS_EUN)
 
 );
-
+````
+````sql
 -- Création de la table des commandes relatives aux clients locaux
 
 CREATE TABLE Commandes_EuN AS (
@@ -687,7 +689,8 @@ CREATE TABLE Commandes_EuN AS (
   )
 
 );
-
+````
+````sql
 -- Création de la table des détails relatifs aux commandes locales
 
 CREATE TABLE Details_Commandes_EuN AS (
@@ -705,7 +708,8 @@ CREATE TABLE Details_Commandes_EuN AS (
   )
 
 );
-
+````
+````sql
 -- Création de la table des clients qui ne se trouvent sur aucun site
 
 -- existant actuellement
@@ -727,7 +731,8 @@ CREATE TABLE Clients_Autres AS (
   )
 
 );
-
+````
+````sql
 -- Création des stocks relatifs localisés sur aucun site existant
 
 -- actuellement
@@ -749,7 +754,8 @@ CREATE TABLE Stock_Autres AS (
   )
 
 );
-
+````
+````sql
 -- Création des commandes relatives à Clients_Autres
 
 CREATE TABLE Commandes_Autres AS (
@@ -767,7 +773,8 @@ CREATE TABLE Commandes_Autres AS (
   )
 
 );
-
+````
+````sql
 -- Création des détails des commandes Commandes_Autres
 
 CREATE TABLE Details_Commandes_Autres AS (
@@ -785,7 +792,8 @@ CREATE TABLE Details_Commandes_Autres AS (
   )
 
 );
-
+````
+````sql
 -- Création de la table des fournisseurs
 
 CREATE TABLE Fournisseurs AS (
@@ -867,9 +875,7 @@ ALTER TABLE COMMANDES_AUTRES ADD CONSTRAINT PK_COMMANDES_AUTRES PRIMARY KEY (NO_
 ALTER TABLE COMMANDES_AUTRES ADD CONSTRAINT FK_COMMANDES_AUTRES_CLIENTS
 
   FOREIGN KEY (CODE_CLIENT) REFERENCES CLIENTS_AUTRES (CODE_CLIENT);
-````
 
-````sql
 -- Contrainte à implémenter sous forme de trigger:
 
 -- ALTER TABLE COMMANDES_AUTRES ADD CONSTRAINT FK_COMMANDES_AUTRES_EMPLOYES -- FK
@@ -891,7 +897,8 @@ ALTER TABLE DETAILS_COMMANDES_AUTRES ADD CONSTRAINT FK_DETAILS_CMD_AUTRES_CMD
 --   FOREIGN KEY (REF_PRODUIT) REFERENCES PRODUITS (REF_PRODUIT) ;
 
 /
-
+````
+````sql
 CREATE OR REPLACE TRIGGER FK_STOCK_EUN_REF_PRODUIT
 
   AFTER INSERT OR UPDATE OF REF_PRODUIT ON STOCK_EUN
@@ -927,7 +934,8 @@ EXCEPTION
 END;
 
 /
-
+````
+````sql
 -- Table CommandesEuN
 
 -- Trigger de contrainte d'intégrité ( FK: CommandesEuN((NO_EMPLOYE)) -> Employes((NO_EMPLOYE)) )
@@ -967,7 +975,8 @@ EXCEPTION
 END;
 
 /
-
+````
+````sql
 -- Table Details_Commandes_EuN
 
 -- Trigger de contrainte d'intégrité ( FK: Details_Commandes_EuN((RefProduit)) -> Produit(RefProduit) )
@@ -1007,7 +1016,8 @@ EXCEPTION
 END;
 
 /
-
+````
+````sql
 -- Table Fournisseur
 
 -- Suppression d'un fournisseur doit être interdite
@@ -1049,7 +1059,8 @@ EXCEPTION
 END;
 
 /
-
+````
+````sql
 -- Table StockAutres
 
 -- ALTER TABLE STOCK_Autres ADD CONSTRAINT FK_STOCK_Autres_REF_PRODUIT
@@ -1093,7 +1104,8 @@ EXCEPTION
 END;
 
 /
-
+````
+````sql
 -- Table CommandesAutres
 
 -- Trigger de contrainte d'intégrité ( FK: CommandesAutres((NO_EMPLOYE)) -> Employes((NO_EMPLOYE)) )
@@ -1131,7 +1143,9 @@ EXCEPTION
 	Raise_application_error(-20003, 'Erreur de contrainte <FK_COMMANDES_Autres_EMPLOYES>; aucun employe ne possede id ' || TO_CHAR(:NEW.NO_EMPLOYE));
 
 END;
-
+/
+````
+````sql
 -- Table Details_Commandes_Autres
 
 -- Trigger de contrainte d'intégrité ( FK: Details_Commandes_Autres((RefProduit)) -> Produit(RefProduit) )
@@ -1233,7 +1247,8 @@ CREATE OR REPLACE SYNONYM COMMANDES_EUS FOR dbrunet.COMMANDES_EUS@LINK_EUN_EUS;
 CREATE OR REPLACE SYNONYM DETAILS_COMMANDES_EUS FOR dbrunet.DETAILS_COMMANDES_EUS@LINK_EUN_EUS;
 
 CREATE OR REPLACE SYNONYM CLIENTS_EUS FOR dbrunet.CLIENTS_EUS@LINK_EUN_EUS;
-
+````
+````sql
 -- Site Amériques
 
 CREATE OR REPLACE SYNONYM EMPLOYES FOR frobion.EMPLOYES@LINK_EuN_A;
@@ -1279,7 +1294,6 @@ FROM (
 
 );
 ````
-
 ````sql
 -- Test EMPLOYES
 
@@ -1311,7 +1325,6 @@ FROM (
 
 );
 ````
-
 ````sql
 -- Test COMMANDES
 
@@ -1343,7 +1356,6 @@ FROM (
 
 );
 ````
-`
 ````sql
 -- Test DETAILS_COMMANDES
 
@@ -1375,7 +1387,6 @@ FROM (
 
 );
 ````
-
 ````sql
 -- Test STOCK
 
@@ -1407,7 +1418,6 @@ FROM (
 
 );
 ````
-
 ````sql
 -- Test PRODUITS
 
@@ -1439,7 +1449,6 @@ FROM (
 
 );
 ````
-
 ````sql
 -- Test CATEGORIES
 
@@ -1471,7 +1480,6 @@ FROM (
 
 );
 ````
- 
 ````sql
 -- Test FOURNISSEURS
 
@@ -1568,9 +1576,8 @@ CREATE TABLE CLIENTS_EuS AS (
               	WHERE CONTINENT='EuS')
 
   );
-
- 
-
+````
+````sql
 -- Création de la table STOCK_EuS (fragmentation primaire)
 
   CREATE TABLE STOCK_EuS AS (
@@ -1586,9 +1593,8 @@ CREATE TABLE CLIENTS_EuS AS (
               	WHERE CONTINENT='EuS')
 
   );
-
- 
-
+````
+````sql
 -- Création de la table COMMANDES_EuS (fragmentation dérivée)
 
   CREATE TABLE COMMANDES_EuS AS (
@@ -1602,9 +1608,8 @@ CREATE TABLE CLIENTS_EuS AS (
                     	FROM CLIENTS_EuS)
 
   );
-
- 
-
+````
+````sql
 -- Création de la table DETAILS_COMMANDES_EuS (fragmentation dérivée)
 
   CREATE TABLE DETAILS_COMMANDES_EuS AS (
@@ -1618,7 +1623,8 @@ CREATE TABLE CLIENTS_EuS AS (
                     	FROM COMMANDES_EuS)
 
   );
-
+````
+````sql
 -- Création de la table PRODUITS
 
   CREATE TABLE PRODUITS AS (
@@ -1628,7 +1634,8 @@ CREATE TABLE CLIENTS_EuS AS (
     FROM RYORI.PRODUITS@LINK_EuS_R
 
   );
-
+````
+````sql
 -- Création de la table CATEGORIES
 
   CREATE TABLE CATEGORIES AS (
@@ -1645,14 +1652,14 @@ CREATE TABLE CLIENTS_EuS AS (
 Les contraintes d’intégrité des différentes tables, mis à part les clé primaires et secondaires, ont été importées de la base Ryori lors de la création des bases.
 
 Ainsi, nous avons d’abord redéfini les clés primaires de chaque table de la manière suivante :
-
+````sql
 -- Ajout des clées primaires
 
 ALTER TABLE CLIENTS_EUS
 
 ADD CONSTRAINT PK_CLIENTS_EUS PRIMARY KEY (CODE_CLIENT);
 
-ALTER TABLE COMMANDES_EUS                                                                ADD CONSTRAINT PK_COMMANDES_EUS PRIMARY KEY (NO_COMMANDE);
+ALTER TABLE COMMANDES_EUS ADD CONSTRAINT PK_COMMANDES_EUS PRIMARY KEY (NO_COMMANDE);
 
 ALTER TABLE DETAILS_COMMANDES_EUS
 
@@ -1669,9 +1676,11 @@ ADD CONSTRAINT PK_CATEGORIES_EUS PRIMARY KEY (CODE_CATEGORIE);
 ALTER TABLE PRODUITS
 
 ADD CONSTRAINT PK_PRODUITS PRIMARY KEY (REF_PRODUIT);
+````
 
 Nous avons par la suite défini des clés étrangères, avec des suppressions en cascade, lorsque les deux tables concernées étaient internes à la base locale, c’est à dire entre les tables CLIENTS_EuS, COMMANDES_EuS, DETAILS_COMMANDES_EuS, STOCK_EuS, PRODUITS et CATEGORIES. Les liens entre la table PRODUITS et les tables fragmentées, même présentes sur le site locale, seront également gérées par des triggers.
 
+````sql
 -- Ajout des clés étrangères
 
 -- Clé de la table STOCK_EUS référençant PRODUITS
@@ -1688,7 +1697,7 @@ ADD CONSTRAINT FK_DETAILS_EUS_PRODUITS_EUS FOREIGN KEY (REF_PRODUIT)
 
 REFERENCES PRODUITS (REF_PRODUIT);
 
--- Clé de la table PRODUITS référençant CATEGORIES                                                        ALTER TABLE PRODUITS
+-- Clé de la table PRODUITS référençant CATEGORIES ALTER TABLE PRODUITS
 
 ADD CONSTRAINT FK_PRODUITS_EUS_CATEGORIES_EUS FOREIGN KEY (CODE_CATEGORIE)
 
@@ -1696,7 +1705,7 @@ REFERENCES CATEGORIES (CODE_CATEGORIE);
 
 ON DELETE CASCADE;
 
--- Clé de la table COMMANDES_EUS référençant CLIENTS_EUS                               ALTER TABLE COMMANDES_EUS
+-- Clé de la table COMMANDES_EUS référençant CLIENTS_EUS ALTER TABLE COMMANDES_EUS
 
 ADD CONSTRAINT FK_COMMANDES_EUS_CLIENTS_EUS FOREIGN KEY (CODE_CLIENT)
 
@@ -1713,9 +1722,11 @@ ADD CONSTRAINT FK_DETAILS_EUS_COMMANDES_EUS FOREIGN KEY (NO_COMMANDE)
 REFERENCES COMMANDES_EUS (NO_COMMANDE)
 
 ON DELETE CASCADE;
+````
 
 Par la suite, nous avons donc mis en place des triggers pour remettre en place une simulation de clées étrangères entre tables distantes :
 
+````sql
 -- Mise en place du trigger permettant de vérifier la cohérence entre les tables PRODUITS  et les tables fragmentées issues de Ryori.STOCK lors de la suppression d’un tuple de la table PRODUITS.
 
 CREATE OR REPLACE TRIGGER STOCK_DETAIL_PROD_DELETE
@@ -1753,7 +1764,9 @@ EXCEPTION
    	|| TO_CHAR(:OLD.REF_PRODUIT));
 
 END;
-
+/
+````
+````sql
 -- Mise en place du trigger permettant de vérifier la cohérence entre les tables PRODUITS  et les tables fragmentées issues de Ryori.DETAILS_COMMANDES lors de la suppression d’un tuple de la table PRODUITS.
 
 CREATE OR REPLACE TRIGGER STOCK_DETAIL_PROD_DELETE
@@ -1791,7 +1804,9 @@ EXCEPTION
    	|| TO_CHAR(:OLD.REF_PRODUIT));
 
 END;
-
+/
+````
+````sql
 -- Mise en place du trigger permettant de vérifier la cohérence entre la table PRODUITS  et la table FOURNISSEUR, lors de l’ajout d’un tuple dans la table PRODUITS.
 
 CREATE OR REPLACE TRIGGER PROD_REF_FOURN_INSERT
@@ -1829,7 +1844,9 @@ EXCEPTION
    	|| TO_CHAR(:NEW.NO_FOURNISSEUR));
 
 END;
-
+/
+````
+````sql
 -- Mise en place du trigger permettant de vérifier la cohérence entre la table COMMANDES_EUS et la table EMPLOYES, lors de l’ajout d’un tuple dans la table COMMANDES_EUS.
 
 CREATE OR REPLACE TRIGGER COMM_REF_EMP_INSERT
@@ -1867,9 +1884,9 @@ EXCEPTION
    	|| TO_CHAR(:NEW.NO_EMPLOYE));
 
 END;
-
+````
 Enfin, nous avons écris les triggers permettant de gérer les clés primaires globales, c’est à dire celles des vues nouvellement créées.
-
+````sql
 -- Mise en place de la clé primaire générale de la table COMMANDES à partir de la table COMMANDES_EuS
 
 CREATE OR REPLACE TRIGGER CLE_PRIM_COMM
@@ -1907,7 +1924,9 @@ EXCEPTION
    	|| TO_CHAR(:NEW.NO_COMMANDE));
 
 END;
-
+/
+````
+````sql
 -- Mise en place de la clé primaire générale de la table CLIENTS à partir de la table CLIENTS_EuS
 
 CREATE OR REPLACE TRIGGER CLE_PRIM_CLIENT
@@ -1945,7 +1964,9 @@ EXCEPTION
    	|| TO_CHAR(:NEW.NO_COMMANDE));
 
 END;
-
+/
+````
+````sql
 -- Mise en place de la clé primaire générale de la table DETAILS_COMMANDES à partir de la table DETAILS_COMMANDES_EuS
 
 CREATE OR REPLACE TRIGGER CLE_PRIM_DETAILS_COMM
@@ -1983,7 +2004,9 @@ EXCEPTION
    	|| TO_CHAR(:NEW.NO_COMMANDE));
 
 END;
-
+/
+````
+````sql
 -- Mise en place de la clé primaire générale de la table STOCK à partir de la table STOCK_EuS
 
 CREATE OR REPLACE TRIGGER CLE_PRIM_STOCK
@@ -2021,11 +2044,11 @@ EXCEPTION
    	|| TO_CHAR(:NEW.NO_COMMANDE));
 
 END; 
-
+````
 #### e) Droits d’accès
 
 Comme l’application DesignIt est la seule à modifier les tables CATEGORIES et PRODUITS, et qu’elle n’est présente que sur notre site (Europe du Sud), nous ne donnons que les droits en sélection aux autres membres.
-
+````sql
 -- Droits de sélection sur la table CATEGORIES
 
 GRANT SELECT
@@ -2053,9 +2076,9 @@ ON PRODUITS TO ASULTAN;
 GRANT SELECT
 
 ON PRODUITS TO CSAMBORSKI;
-
+````
 Pour les autres tables, pour simuler la présence d’une seule et unique base de données, nous avons donné tous les droits aux autres membres.
-
+````sql
 -- Droits sur la table CLIENTS_EuS
 
 GRANT INSERT, UPDATE, DELETE, SELECT
@@ -2111,11 +2134,12 @@ ON STOCK_EUS TO ASULTAN;
 GRANT INSERT, UPDATE, DELETE, SELECT
 
 ON STOCK_EUS TO CSAMBORSKI;
+````
 
 #### f) Définition de synonymes et de vues pour interrogation de la base comme si elle était en centralisé.
 
 Nous avons tout d’abord créé des synonymes afin de pouvoir manipuler les tables sans spécifier le lien initialement créé.
-
+````sql
 CREATE SYNONYM FOURNISSEURS FOR csamborski.FOURNISSEURS@LINK_EuN
 
 CREATE SYNONYM EMPLOYES FOR frobion.EMPLOYES@LINK_A
@@ -2143,7 +2167,7 @@ CREATE SYNONYM STOCK_Autres FOR csamborski.STOCK_Autres@LINK_EuN;
 CREATE SYNONYM COMMANDES_Autres FOR csamborski.COMMANDES_Autres@LINK_EuN;
 
 CREATE SYNONYM DETAILS_COMMANDES_AUTRES FOR csamborski.DETAILS_COMMANDES_AUTRES@LINK_EuN;
-
+````
 Nous avons par la suite créé des vues afin de manipuler les mêmes tables que celles présentes dans la base en mode centralisée (Ryori) de la manière suivante :
 
 -- Création de la vue CLIENTS, regroupant les trois fragments de la table Ryori.CLIENTS
