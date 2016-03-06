@@ -16,9 +16,9 @@ SOMMAIRE :
 
 # I. Rappel rapide du contexte et des objectifs du TP.
 
-	Dans ce TP, nous simulerons la fragmentation d’une base de données d’une entreprise implémentée en Europe du Nord, en Europe du Sud, ainsi qu’en Amérique. Il n’est pas exclus qu’elle puisse se développer ailleurs par la suite. Le siège de l’entreprise est en Europe du Nord.
+Dans ce TP, nous simulerons la fragmentation d’une base de données d’une entreprise implémentée en Europe du Nord, en Europe du Sud, ainsi qu’en Amérique. Il n’est pas exclus qu’elle puisse se développer ailleurs par la suite. Le siège de l’entreprise est en Europe du Nord.
 
-	Nous devons ainsi réaliser la fragmentation d’une base de données Oracle sur trois sites géographiquement distants, afin d’optimiser au mieux les performances des requêtes y étant effectuées, selon les applications utilisées sur chaque site, de manière à ce que la répartition soit transparente pour l’utilisateur final.
+Nous devons ainsi réaliser la fragmentation d’une base de données Oracle sur trois sites géographiquement distants, afin d’optimiser au mieux les performances des requêtes y étant effectuées, selon les applications utilisées sur chaque site, de manière à ce que la répartition soit transparente pour l’utilisateur final.
 
 # II. Présentation du groupe de travail et des rôles de chacun
 
@@ -52,7 +52,7 @@ SOMMAIRE :
 
 
 
-	Les responsabilités et tâches peuvent être résumées dans le tableau suivant :
+Les responsabilités et tâches peuvent être résumées dans le tableau suivant :
 
 <table>
   <tr>
@@ -82,13 +82,11 @@ SOMMAIRE :
 </table>
 
 
-# 
-III. Fragmentation
+# III. Fragmentation
 
 ## A. Détermination des fragments
 
-### 
-1. Fragmentation horizontale
+### 1. Fragmentation horizontale
 
 #### i) Table Client
 
@@ -124,7 +122,7 @@ Après simplification logique - un pays ne peut pas être ici dans deux sites à
 
 #### ii) Table Stock
 
-	Dans le sujet, on nous indique que les sites effectuent des accès très fréquents à leur stock local contre un accès peu fréquent aux autres stocks. On peut donc affirmer qu’une majorité des requêtes des stocks, pour chaque site, seront concentrées sur le stock local au site.
+Dans le sujet, on nous indique que les sites effectuent des accès très fréquents à leur stock local contre un accès peu fréquent aux autres stocks. On peut donc affirmer qu’une majorité des requêtes des stocks, pour chaque site, seront concentrées sur le stock local au site.
 
 Par le même raisonnement que pour la table Client, on en déduit les prédicats suivants pour caractériser chacun des tuples de la table Stock:
 
@@ -170,8 +168,7 @@ Le schéma suivant récapitule la fragmentation du schéma de la base, après é
 
 Remarque: Nous avons choisi, pour chacune des tables que nous avons fragmenté, de suffixer le nom originale de la table avec un code représentant la région gérée. Ainsi, _EuN représente l’Europe du nord, _EuS représente l’Europe du Sud, _A représente l’Amérique et _Autres représente les autres régions.
 
-## 
-B. Placement des fragments sur les sites (sans réplication)
+## B. Placement des fragments sur les sites (sans réplication)
 
 ### 1. Analyse
 
@@ -471,6 +468,7 @@ La répartition des pays par site est donnée ci-dessous:
 
 Le code SQL correspondant à la création de la table d’association décrite précédemment est donné ci-dessous :
 
+````sql
 CREATE TABLE PAYS_CONTINENTS(
 
   PAYS              VARCHAR2(15)  NOT NULL,
@@ -622,6 +620,7 @@ INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Trinite-et-Toba', 'A');
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Uruguay', 'A');
 
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Venezuela', 'A');
+````
 
 ### 1. Site Europe du Nord
 
@@ -634,15 +633,17 @@ Le site "Europe du Nord" est sous la responsabilité du binôme **B3226**:
 * SULTAN Arthur
 
 #### b) Création des liens entre les bases
+````sql
 
 CREATE DATABASE LINK LINK_EuN_R CONNECT TO csamborski IDENTIFIED BY mdporacle USING 'DB1';
 
 CREATE DATABASE LINK LINK_EuN_EuS CONNECT TO csamborski IDENTIFIED BY mdporacle USING 'DB3';
 
 CREATE DATABASE LINK LINK_EuN_A CONNECT TO csamborski IDENTIFIED BY mdporacle USING 'DB4';
+````
 
 #### c) Création et peuplement des tables
-
+````sql
 -- CREATION DES TABLES LOCALES
 
 -- Création de la table des clients locaux
@@ -794,9 +795,11 @@ CREATE TABLE Fournisseurs AS (
   FROM Ryori.Fournisseurs@LINK_EuN_R
 
 );
+````
 
 #### d) Contraintes d’intégrité
 
+````sql
 -- MISE EN PLACE DES CONTRAINTES (EUN)
 
 -- Table Client_EuN (Primary Key, Foreign Keys, Checks)
@@ -864,7 +867,9 @@ ALTER TABLE COMMANDES_AUTRES ADD CONSTRAINT PK_COMMANDES_AUTRES PRIMARY KEY (NO_
 ALTER TABLE COMMANDES_AUTRES ADD CONSTRAINT FK_COMMANDES_AUTRES_CLIENTS
 
   FOREIGN KEY (CODE_CLIENT) REFERENCES CLIENTS_AUTRES (CODE_CLIENT);
+````
 
+````sql
 -- Contrainte à implémenter sous forme de trigger:
 
 -- ALTER TABLE COMMANDES_AUTRES ADD CONSTRAINT FK_COMMANDES_AUTRES_EMPLOYES -- FK
@@ -1166,9 +1171,11 @@ EXCEPTION
 END;
 
 /
+````
 
 #### e) Droits d’accès
 
+````sql
 -- GRANT
 
 GRANT INSERT, UPDATE, DELETE, SELECT ON CLIENTS_AUTRES TO FROBION;
@@ -1206,9 +1213,11 @@ GRANT INSERT, UPDATE, DELETE, SELECT ON STOCK_AUTRES TO DBRUNET;
 GRANT INSERT, UPDATE, DELETE, SELECT ON STOCK_EUN TO FROBION;
 
 GRANT INSERT, UPDATE, DELETE, SELECT ON STOCK_EUN TO DBRUNET;
+````
 
 #### f) Définition de synonymes et de vues pour interrogation de la base comme si elle était en centralisé.
 
+````sql
 -- CREATION DES SYNONYMES
 
 -- Site Europe du Sud
@@ -1236,6 +1245,7 @@ CREATE OR REPLACE SYNONYM STOCK_A FOR frobion.STOCK_A@LINK_EuN_A;
 CREATE OR REPLACE SYNONYM COMMANDES_A FOR frobion.COMMANDES_A@LINK_EuN_A;
 
 CREATE OR REPLACE SYNONYM DETAILS_COMMANDES_A FOR frobion.DETAILS_COMMANDES_A@LINK_EuN_A;
+````
 
 #### g) Tests de vérification du bon fonctionnement
 
