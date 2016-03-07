@@ -134,25 +134,19 @@ La table Commandes dépendant de Clients et la table DétailsCommandes dépendan
 
 Ces tables sont ainsi obtenues en effectuant les opérations suivantes:
 
+````txt
 Commandes_EuN = Commandes **⋉**[Code_Client] Clients_EuN
-
 Commandes_EuS = Commandes **⋉**[Code_Client] Clients_EuS
-
 Commandes_A = Commandes **⋉**[Code_Client] Clients_A
-
 Commandes_Autres = Commandes **⋉**[Code_Client] Clients_Autres
-
 Commandes_ClientInconnu = σ[Code_Client is null] (Commandes)
 
 Details_Commandes_EuN= Details_Commandes **⋉**[No_Commande] Commandes_EuN
-
 Details_Commandes_EuS= Details_Commandes **⋉**[No_Commande] Commandes_EuS
-
 Details_Commandes_A= Details_Commandes **⋉**[No_Commande] Commandes_A
-
 Details_Commandes_Autres= Details_Commandes **⋉**[No_Commande] Commandes_Autres
-
 Details_Commandes_CommandeNull= σ[No_Commande is null] (Details_Commandes)
+````
 
 Les contraintes d’intégrité indiquées sur le schéma de la base - « Code_Client is not null » pour la table Commandes et « No_Commande is not null » - permettent d’éliminer la dernière semi-équi-jointure (évitant ainsi un fragment supplémentaire pour les Commandes et les Détails_Commandes). Encore une fois, un tuple de ces deux tables ne peut pas être géré par deux sites différents, correspondant à un seul Client, un seul Pays et donc un seul site (la fragmentation sur la table Client permet la mise en place de 4 fragments distincts, comme démontré auparavant).
 
@@ -470,155 +464,81 @@ Le code SQL correspondant à la création de la table d’association décrite p
 
 ````sql
 CREATE TABLE PAYS_CONTINENTS(
-
   PAYS              VARCHAR2(15)  NOT NULL,
-
   CONTINENT         VARCHAR2(15)  NOT NULL
-
 );
 
- 
-
 -- Insertion en Europe du nord
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Allemagne', 'EuN');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Belgique', 'EuN');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Danemark', 'EuN');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Finlande', 'EuN');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Irlande', 'EuN');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Islande', 'EuN');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Luxembourg', 'EuN');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Norvege', 'EuN');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Pays_Bas', 'EuN');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Pologne', 'EuN');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Royaume-Uni', 'EuN');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Suede', 'EuN');
 
- 
-
 -- Insertion en Europe du sud
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Albanie', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Andorre', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Autriche', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Bosnie-Herzegov', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Bulgarie', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Croatie', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Espagne', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('France', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Gibraltar', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Grece', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Italie', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Macedoine', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Malte', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Montenegro', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Portugal', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Saint-Marin', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Serbie', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Slovenie', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Suisse', 'EuS');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Vatican', 'EuS');
 
 -- Insertion en Amerique
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Antigua-et-Barb', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Argentine', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Bahamas', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Barbade', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Belize', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Bolivie', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Bresil', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Canada', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Chili', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Colombie', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Costa Rica', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Cuba', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Republique domi', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Dominique', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Equateur', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Etats-Unis', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Grenade', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Guatemala', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Guyana', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Haiti', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Honduras', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Jamaique', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Mexique', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Nicaragua', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Panama', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Paraguay', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Perou', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Saint-Christoph', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Sainte-Lucie', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Saint-Vincent-e', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Salvador', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Suriname', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Trinite-et-Toba', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Uruguay', 'A');
-
 INSERT INTO PAYS_CONTINENTS(PAYS, CONTINENT) VALUES('Venezuela', 'A');
 ````
 
@@ -634,174 +554,112 @@ Le site "Europe du Nord" est sous la responsabilité du binôme **B3226**:
 
 #### b) Création des liens entre les bases
 ````sql
-
 CREATE DATABASE LINK LINK_EuN_R CONNECT TO csamborski IDENTIFIED BY mdporacle USING 'DB1';
-
 CREATE DATABASE LINK LINK_EuN_EuS CONNECT TO csamborski IDENTIFIED BY mdporacle USING 'DB3';
-
 CREATE DATABASE LINK LINK_EuN_A CONNECT TO csamborski IDENTIFIED BY mdporacle USING 'DB4';
 ````
 
 #### c) Création et peuplement des tables
 ````sql
 -- CREATION DES TABLES LOCALES
-
 -- Création de la table des clients locaux
-
 CREATE TABLE Clients_EuN AS (
-
   SELECT *
-
   FROM Ryori.Clients@LINK_EuN_R C
-
   WHERE C.pays IN (SELECT * FROM PAYS_EUN)
-
 );
 ````
+
 ````sql
 -- Création de la table des stocks locaux
-
 CREATE TABLE Stock_EuN AS (
-
   SELECT *
-
   FROM Ryori.Stock@LINK_EuN_R S
-
   WHERE S.pays IN (SELECT * FROM PAYS_EUN)
-
 );
 ````
+
 ````sql
 -- Création de la table des commandes relatives aux clients locaux
-
 CREATE TABLE Commandes_EuN AS (
-
   SELECT *
-
   FROM Ryori.Commandes@LINK_EuN_R C
-
   WHERE C.CODE_CLIENT IN (
-
 	SELECT CODE_CLIENT
-
 	FROM CLIENTS_EUN
-
   )
-
 );
 ````
+
 ````sql
 -- Création de la table des détails relatifs aux commandes locales
-
 CREATE TABLE Details_Commandes_EuN AS (
-
   SELECT *
-
   FROM Ryori.Details_Commandes@LINK_EuN_R
-
   WHERE NO_COMMANDE IN (
-
 	SELECT NO_COMMANDE
-
 	FROM Commandes_EUN
-
   )
-
 );
 ````
+
 ````sql
 -- Création de la table des clients qui ne se trouvent sur aucun site
-
 -- existant actuellement
-
 CREATE TABLE Clients_Autres AS (
-
   SELECT *
-
   FROM Ryori.Clients@LINK_EuN_R
-
   WHERE pays NOT IN (
-
 	SELECT Pays
-
 	FROM Pays_Continents
-
 	WHERE Continent = 'EuN' OR Continent = 'EuS' OR Continent = 'A'
-
   )
-
 );
 ````
+
 ````sql
 -- Création des stocks relatifs localisés sur aucun site existant
-
 -- actuellement
-
 CREATE TABLE Stock_Autres AS (
-
   SELECT *
-
   FROM Ryori.Stock@LINK_EuN_R
-
   WHERE pays NOT IN (
-
 	SELECT Pays
-
 	FROM Pays_Continents
-
 	WHERE Continent = 'EuN' OR Continent = 'EuS' OR Continent = 'A'
-
   )
-
 );
 ````
+
 ````sql
 -- Création des commandes relatives à Clients_Autres
-
 CREATE TABLE Commandes_Autres AS (
-
   SELECT *
-
   FROM Ryori.Commandes@LINK_EuN_R
-
   WHERE CODE_CLIENT IN (
-
 	SELECT CODE_CLIENT
-
 	FROM CLIENTS_AUTRES
-
   )
-
 );
 ````
+
 ````sql
 -- Création des détails des commandes Commandes_Autres
-
 CREATE TABLE Details_Commandes_Autres AS (
-
   SELECT *
-
   FROM Ryori.Details_Commandes@LINK_EuN_R
-
   WHERE NO_COMMANDE IN (
-
 	SELECT NO_COMMANDE
-
 	FROM Commandes_AUTRES
-
   )
-
 );
 ````
+
 ````sql
 -- Création de la table des fournisseurs
-
 CREATE TABLE Fournisseurs AS (
-
   SELECT *
-
   FROM Ryori.Fournisseurs@LINK_EuN_R
-
 );
 ````
 
@@ -809,381 +667,218 @@ CREATE TABLE Fournisseurs AS (
 
 ````sql
 -- MISE EN PLACE DES CONTRAINTES (EUN)
-
 -- Table Client_EuN (Primary Key, Foreign Keys, Checks)
-
 ALTER TABLE CLIENTS_EUN ADD CONSTRAINT PK_CLIENTS_EUN PRIMARY KEY (CODE_CLIENT); -- PK
-
 -- Table Stock_EuN
-
 ALTER TABLE STOCK_EUN ADD CONSTRAINT PK_STOCK_EUN PRIMARY KEY (REF_PRODUIT, PAYS); -- PK
-
 -- Contrainte à implémenter sous forme de trigger:
-
 -- ALTER TABLE STOCK_EUN ADD CONSTRAINT FK_STOCK_EUN_REF_PRODUIT -- FK
-
 --   FOREIGN KEY (REF_PRODUIT) REFERENCES PRODUITS(REF_PRODUIT);
 
 -- Table Commandes_EuN
-
 ALTER TABLE COMMANDES_EUN ADD CONSTRAINT PK_COMMANDES_EUN PRIMARY KEY (NO_COMMANDE); -- PK
-
 ALTER TABLE COMMANDES_EUN ADD CONSTRAINT FK_COMMANDES_EUN_CLIENTS -- FK
-
   FOREIGN KEY (CODE_CLIENT) REFERENCES CLIENTS_EUN (CODE_CLIENT);
 
 -- Table Details_Commandes_EuN
-
 ALTER TABLE DETAILS_COMMANDES_EUN ADD CONSTRAINT PK_DETAILS_COMMANDES_EUN PRIMARY KEY (NO_COMMANDE, REF_PRODUIT); -- PK
-
 ALTER TABLE DETAILS_COMMANDES_EUN ADD CONSTRAINT FK_DETAILS_CMD_EUN_CMD
-
   FOREIGN KEY (NO_COMMANDE) REFERENCES COMMANDES_EUN (NO_COMMANDE) ON DELETE CASCADE;  -- FK
-
 -- Contrainte à implémenter sous forme de trigger:
-
 -- ALTER TABLE DETAILS_COMMANDES_EUN ADD CONSTRAINT FK_DETAILS_COMMANDES_EUN_PRODUITS -- FK
-
 --   FOREIGN KEY (REF_PRODUIT) REFERENCES PRODUITS (REF_PRODUIT);
 
 -- Table Fournisseurs
-
 ALTER TABLE FOURNISSEURS ADD CONSTRAINT PK_FOURNISSEURS PRIMARY KEY (NO_FOURNISSEUR); -- PK
 
 -- MISE EN PLACE DES CONTRAINTES (AUTRES)
-
 -- Table Clients_Autres
-
 ALTER TABLE CLIENTS_AUTRES ADD CONSTRAINT PK_CLIENTS_AUTRES PRIMARY KEY (CODE_CLIENT); -- PK
 
 -- Table Stock_Autres
-
 ALTER TABLE STOCK_AUTRES ADD CONSTRAINT PK_STOCK_AUTRES PRIMARY KEY (REF_PRODUIT, PAYS); -- PK
-
 -- Contrainte à implémenter sous forme de trigger:
-
 -- ALTER TABLE STOCK_AUTRES ADD CONSTRAINT FK_STOCK_AUTRES_REF_PRODUIT -- FK
-
 --   FOREIGN KEY (REF_PRODUIT) REFERENCES PRODUITS(REF_PRODUIT);
 
- 
-
 -- Table Commandes_Autres
-
 ALTER TABLE COMMANDES_AUTRES ADD CONSTRAINT PK_COMMANDES_AUTRES PRIMARY KEY (NO_COMMANDE); -- PK
-
 ALTER TABLE COMMANDES_AUTRES ADD CONSTRAINT FK_COMMANDES_AUTRES_CLIENTS
-
   FOREIGN KEY (CODE_CLIENT) REFERENCES CLIENTS_AUTRES (CODE_CLIENT);
-
 -- Contrainte à implémenter sous forme de trigger:
-
 -- ALTER TABLE COMMANDES_AUTRES ADD CONSTRAINT FK_COMMANDES_AUTRES_EMPLOYES -- FK
-
 --   FOREIGN KEY (NO_EMPLOYE) REFERENCES EMPLOYES (NO_EMPLOYE);
 
 -- Table Details_Commandes_Autres
-
 ALTER TABLE DETAILS_COMMANDES_AUTRES ADD CONSTRAINT PK_DETAILS_COMMANDES_AUTRES PRIMARY KEY (NO_COMMANDE, REF_PRODUIT); -- PK
-
 ALTER TABLE DETAILS_COMMANDES_AUTRES ADD CONSTRAINT FK_DETAILS_CMD_AUTRES_CMD
-
   FOREIGN KEY (NO_COMMANDE) REFERENCES COMMANDES_AUTRES (NO_COMMANDE) ON DELETE CASCADE;   -- FK
-
 -- Contrainte à implémenter sous forme de trigger:
-
 -- ALTER TABLE DETAILS_COMMANDES_AUTRES ADD CONSTRAINT FK_DETAILS_COMMANDES_AUTRES_PRODUITS -- FK
-
 --   FOREIGN KEY (REF_PRODUIT) REFERENCES PRODUITS (REF_PRODUIT) ;
-
 /
 ````
+
 ````sql
 CREATE OR REPLACE TRIGGER FK_STOCK_EUN_REF_PRODUIT
-
   AFTER INSERT OR UPDATE OF REF_PRODUIT ON STOCK_EUN
-
   FOR EACH ROW
-
 DECLARE
-
   Res                           	INTEGER;
-
   UNKNOWN_FK_PRODUIT_EXCEPTION  	EXCEPTION;
-
 BEGIN
-
 SELECT COUNT(*) INTO Res
-
 FROM PRODUITS p
-
 WHERE p.REF_PRODUIT = :NEW.REF_PRODUIT;
-
   IF Res = 0 THEN
-
 	RAISE UNKNOWN_FK_PRODUIT_EXCEPTION;
-
   END IF;
-
 EXCEPTION
-
   WHEN UNKNOWN_FK_PRODUIT_EXCEPTION THEN
-
 	Raise_application_error(-20002, 'Erreur de contrainte <FK_STOCK_EUN_REF_PRODUIT>; aucun produit ne possede id ' || TO_CHAR(:NEW.REF_PRODUIT));
-
 END;
-
 /
 ````
+
 ````sql
 -- Table CommandesEuN
-
 -- Trigger de contrainte d'intégrité ( FK: CommandesEuN((NO_EMPLOYE)) -> Employes((NO_EMPLOYE)) )
-
 CREATE OR REPLACE TRIGGER FK_COMMANDES_EUN_EMPLOYES
-
   AFTER INSERT OR UPDATE OF NO_EMPLOYE ON COMMANDES_EUN
-
   FOR EACH ROW
-
 DECLARE
-
   Res                           	INTEGER;
-
   UNKNOWN_FK_NOEMP_EXCEPTION  	EXCEPTION;
-
 BEGIN
-
 SELECT COUNT(*) INTO Res
-
 FROM Employes e
-
 WHERE e.NO_EMPLOYE = :NEW.NO_EMPLOYE;
-
   IF Res = 0 THEN
-
 	RAISE UNKNOWN_FK_NOEMP_EXCEPTION;
-
   END IF;
-
 EXCEPTION
-
   WHEN UNKNOWN_FK_NOEMP_EXCEPTION THEN
-
 	Raise_application_error(-20003, 'Erreur de contrainte <FK_COMMANDES_EUN_EMPLOYES>; aucun employe ne possede id ' || TO_CHAR(:NEW.NO_EMPLOYE));
-
 END;
-
 /
 ````
+
 ````sql
 -- Table Details_Commandes_EuN
-
 -- Trigger de contrainte d'intégrité ( FK: Details_Commandes_EuN((RefProduit)) -> Produit(RefProduit) )
-
 CREATE OR REPLACE TRIGGER FK_DETAILS_CMD_EUN_PRODUITS
-
   AFTER INSERT OR UPDATE OF Ref_Produit ON Details_Commandes_EuN
-
   FOR EACH ROW
-
 DECLARE
-
   Res                           	INTEGER;
-
   UNKNOWN_FK_PRODUIT_EXCEPTION  	EXCEPTION;
-
 BEGIN
-
 SELECT COUNT(*) INTO Res
-
 FROM PRODUITS p
-
 WHERE p.REF_PRODUIT = :NEW.REF_PRODUIT;
-
   IF Res = 0 THEN
-
 	RAISE UNKNOWN_FK_PRODUIT_EXCEPTION;
-
   END IF;
-
 EXCEPTION
-
   WHEN UNKNOWN_FK_PRODUIT_EXCEPTION THEN
-
 	Raise_application_error(-20003, 'Erreur de contrainte <UNKNOWN_FK_PRODUIT_EXCEPTION>; aucun produit ne possede id ' || TO_CHAR(:NEW.Ref_Produit));
-
 END;
-
 /
 ````
+
 ````sql
 -- Table Fournisseur
-
 -- Suppression d'un fournisseur doit être interdite
-
 -- si un produit existe avec ce fournisseur
-
 CREATE OR REPLACE TRIGGER DELETE_FOURNISSEUR
-
   AFTER DELETE ON FOURNISSEURS
-
   FOR EACH ROW
-
 DECLARE
-
   Res                           	INTEGER;
-
   PRODUIT_REF_FOURN_EXCEPTION  	EXCEPTION;
-
 BEGIN
-
 SELECT COUNT(*) INTO Res
-
 FROM PRODUITS p
-
 WHERE p.NO_FOURNISSEUR = :NEW.NO_FOURNISSEUR;
-
   IF Res != 0 THEN
-
 	RAISE PRODUIT_REF_FOURN_EXCEPTION;
-
   END IF;
-
 EXCEPTION
-
   WHEN PRODUIT_REF_FOURN_EXCEPTION THEN
-
 	Raise_application_error(-20002, 'Impossible de supprimer le fournisseur numero ' || TO_CHAR(:NEW.NO_FOURNISSEUR) || ': des produits referencent ce fournisseur. Veuillez supprimer auparavant ces produits.');
-
 END;
-
 /
 ````
+
 ````sql
 -- Table StockAutres
-
 -- ALTER TABLE STOCK_Autres ADD CONSTRAINT FK_STOCK_Autres_REF_PRODUIT
-
 --   FOREIGN KEY (REF_PRODUIT) REFERENCES PRODUITS(REF_PRODUIT);
-
 -- Trigger de contrainte d'intégrité ( FK: StockAutres(RefProduit) -> Produit(RefProduit) )
 
 CREATE OR REPLACE TRIGGER FK_STOCK_Autres_REF_PRODUIT
-
   AFTER INSERT OR UPDATE OF REF_PRODUIT ON STOCK_Autres
-
   FOR EACH ROW
-
 DECLARE
-
   Res                           	INTEGER;
-
   UNKNOWN_FK_PRODUIT_EXCEPTION  	EXCEPTION;
-
 BEGIN
-
 SELECT COUNT(*) INTO Res
-
 FROM PRODUITS p
-
 WHERE p.REF_PRODUIT = :NEW.REF_PRODUIT;
-
   IF Res = 0 THEN
-
 	RAISE UNKNOWN_FK_PRODUIT_EXCEPTION;
-
   END IF;
-
 EXCEPTION
-
   WHEN UNKNOWN_FK_PRODUIT_EXCEPTION THEN
-
 	Raise_application_error(-20002, 'Erreur de contrainte <FK_STOCK_Autres_REF_PRODUIT>; aucun produit ne possede id ' || TO_CHAR(:NEW.REF_PRODUIT));
-
 END;
-
 /
 ````
+
 ````sql
 -- Table CommandesAutres
-
 -- Trigger de contrainte d'intégrité ( FK: CommandesAutres((NO_EMPLOYE)) -> Employes((NO_EMPLOYE)) )
-
 CREATE OR REPLACE TRIGGER FK_COMMANDES_Autres_EMPLOYES
-
   AFTER INSERT OR UPDATE OF NO_EMPLOYE ON COMMANDES_Autres
-
   FOR EACH ROW
-
 DECLARE
-
   Res                           	INTEGER;
-
   UNKNOWN_FK_NOEMP_EXCEPTION  	EXCEPTION;
-
 BEGIN
-
 SELECT COUNT(*) INTO Res
-
 FROM Employes e
-
 WHERE e.NO_EMPLOYE = :NEW.NO_EMPLOYE;
-
   IF Res = 0 THEN
-
 	RAISE UNKNOWN_FK_NOEMP_EXCEPTION;
-
   END IF;
-
 EXCEPTION
-
   WHEN UNKNOWN_FK_NOEMP_EXCEPTION THEN
-
 	Raise_application_error(-20003, 'Erreur de contrainte <FK_COMMANDES_Autres_EMPLOYES>; aucun employe ne possede id ' || TO_CHAR(:NEW.NO_EMPLOYE));
-
 END;
 /
 ````
+
 ````sql
 -- Table Details_Commandes_Autres
-
 -- Trigger de contrainte d'intégrité ( FK: Details_Commandes_Autres((RefProduit)) -> Produit(RefProduit) )
-
 CREATE OR REPLACE TRIGGER FK_DETAILS_CMD_Autres_PRODUITS
-
   AFTER INSERT OR UPDATE OF Ref_Produit ON Details_Commandes_Autres
-
   FOR EACH ROW
-
 DECLARE
-
   Res                           	INTEGER;
-
   UNKNOWN_FK_PRODUIT_EXCEPTION  	EXCEPTION;
-
 BEGIN
-
 SELECT COUNT(*) INTO Res
-
 FROM PRODUITS p
-
 WHERE p.REF_PRODUIT = :NEW.REF_PRODUIT;
-
   IF Res = 0 THEN
-
 	RAISE UNKNOWN_FK_PRODUIT_EXCEPTION;
-
   END IF;
-
 EXCEPTION
-
   WHEN UNKNOWN_FK_PRODUIT_EXCEPTION THEN
-
 	Raise_application_error(-20003, 'Erreur de contrainte <UNKNOWN_FK_PRODUIT_EXCEPTION>; aucun produit ne possede id ' || TO_CHAR(:NEW.Ref_Produit));
-
 END;
-
 /
 ````
 
@@ -1191,41 +886,23 @@ END;
 
 ````sql
 -- GRANT
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON CLIENTS_AUTRES TO FROBION;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON CLIENTS_AUTRES TO DBRUNET;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON CLIENTS_EUN TO FROBION;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON CLIENTS_EUN TO DBRUNET;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON COMMANDES_AUTRES TO FROBION;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON COMMANDES_AUTRES TO DBRUNET;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON COMMANDES_EUN TO FROBION;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON COMMANDES_EUN TO DBRUNET;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON DETAILS_COMMANDES_AUTRES TO FROBION;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON DETAILS_COMMANDES_AUTRES TO DBRUNET;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON DETAILS_COMMANDES_EUN TO FROBION;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON DETAILS_COMMANDES_EUN TO DBRUNET;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON FOURNISSEURS TO FROBION;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON FOURNISSEURS TO DBRUNET;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON STOCK_AUTRES TO FROBION;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON STOCK_AUTRES TO DBRUNET;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON STOCK_EUN TO FROBION;
-
 GRANT INSERT, UPDATE, DELETE, SELECT ON STOCK_EUN TO DBRUNET;
 ````
 
@@ -1233,282 +910,166 @@ GRANT INSERT, UPDATE, DELETE, SELECT ON STOCK_EUN TO DBRUNET;
 
 ````sql
 -- CREATION DES SYNONYMES
-
 -- Site Europe du Sud
-
 CREATE OR REPLACE SYNONYM PRODUITS FOR dbrunet.PRODUITS@LINK_EUN_EUS;
-
 CREATE OR REPLACE SYNONYM CATEGORIES FOR dbrunet.CATEGORIES@LINK_EUN_EUS;
-
 CREATE OR REPLACE SYNONYM STOCK_EUS FOR dbrunet.STOCK_EUS@LINK_EUN_EUS;
-
 CREATE OR REPLACE SYNONYM COMMANDES_EUS FOR dbrunet.COMMANDES_EUS@LINK_EUN_EUS;
-
 CREATE OR REPLACE SYNONYM DETAILS_COMMANDES_EUS FOR dbrunet.DETAILS_COMMANDES_EUS@LINK_EUN_EUS;
-
 CREATE OR REPLACE SYNONYM CLIENTS_EUS FOR dbrunet.CLIENTS_EUS@LINK_EUN_EUS;
 ````
+
 ````sql
 -- Site Amériques
-
 CREATE OR REPLACE SYNONYM EMPLOYES FOR frobion.EMPLOYES@LINK_EuN_A;
-
 CREATE OR REPLACE SYNONYM CLIENTS_A FOR frobion.CLIENTS_A@LINK_EuN_A;
-
 CREATE OR REPLACE SYNONYM STOCK_A FOR frobion.STOCK_A@LINK_EuN_A;
-
 CREATE OR REPLACE SYNONYM COMMANDES_A FOR frobion.COMMANDES_A@LINK_EuN_A;
-
 CREATE OR REPLACE SYNONYM DETAILS_COMMANDES_A FOR frobion.DETAILS_COMMANDES_A@LINK_EuN_A;
 ````
 
 #### g) Tests de vérification du bon fonctionnement
 ````sql
 -- Test CLIENTS
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
 	SELECT * FROM Ryori.CLIENTS@LINK_EuN_R
-
 	MINUS
-
 	SELECT * FROM CLIENTS
-
   )
-
   UNION ALL
-
   (
-
 	SELECT * FROM CLIENTS
-
 	MINUS
-
 	SELECT * FROM Ryori.CLIENTS@LINK_EuN_R
-
   )
-
 );
 ````
+
 ````sql
 -- Test EMPLOYES
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
 	SELECT * FROM Ryori.EMPLOYES@LINK_EuN_R
-
 	MINUS
-
 	SELECT * FROM EMPLOYES
-
   )
-
   UNION ALL
-
   (
-
 	SELECT * FROM EMPLOYES
-
 	MINUS
-
 	SELECT * FROM Ryori.EMPLOYES@LINK_EuN_R
-
   )
-
 );
 ````
+
 ````sql
 -- Test COMMANDES
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
 	SELECT * FROM Ryori.COMMANDES@LINK_EuN_R
-
 	MINUS
-
 	SELECT * FROM COMMANDES
-
   )
-
   UNION ALL
-
   (
-
 	SELECT * FROM COMMANDES
-
 	MINUS
-
 	SELECT * FROM Ryori.COMMANDES@LINK_EuN_R
-
   )
-
 );
 ````
+
 ````sql
 -- Test DETAILS_COMMANDES
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
 	SELECT * FROM Ryori.DETAILS_COMMANDES@LINK_EuN_R
-
 	MINUS
-
 	SELECT * FROM DETAILS_COMMANDES
-
   )
-
   UNION ALL
-
   (
-
 	SELECT * FROM DETAILS_COMMANDES
-
 	MINUS
-
 	SELECT * FROM Ryori.DETAILS_COMMANDES@LINK_EuN_R
-
   )
-
 );
 ````
+
 ````sql
 -- Test STOCK
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
 	SELECT * FROM Ryori.STOCK@LINK_EuN_R
-
 	MINUS
-
 	SELECT * FROM STOCK
-
   )
-
   UNION ALL
-
   (
-
 	SELECT * FROM STOCK
-
 	MINUS
-
 	SELECT * FROM Ryori.STOCK@LINK_EuN_R
-
   )
-
 );
 ````
+
 ````sql
 -- Test PRODUITS
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
 	SELECT * FROM Ryori.PRODUITS@LINK_EuN_R
-
 	MINUS
-
 	SELECT * FROM PRODUITS
-
   )
-
   UNION ALL
-
   (
-
 	SELECT * FROM PRODUITS
-
 	MINUS
-
 	SELECT * FROM Ryori.PRODUITS@LINK_EuN_R
-
   )
-
-);
+;
 ````
+
 ````sql
 -- Test CATEGORIES
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
 	SELECT * FROM Ryori.CATEGORIES@LINK_EuN_R
-
 	MINUS
-
 	SELECT * FROM CATEGORIES
-
   )
-
   UNION ALL
-
   (
-
 	SELECT * FROM CATEGORIES
-
 	MINUS
-
 	SELECT * FROM Ryori.CATEGORIES@LINK_EuN_R
-
   )
-
 );
 ````
+
 ````sql
 -- Test FOURNISSEURS
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
 	SELECT * FROM Ryori.FOURNISSEURS@LINK_EuN_R
-
 	MINUS
-
 	SELECT * FROM FOURNISSEURS
-
   )
-
   UNION ALL
-
   (
-
 	SELECT * FROM FOURNISSEURS
-
 	MINUS
-
 	SELECT * FROM Ryori.FOURNISSEURS@LINK_EuN_R
-
   )
-
 );
 ````
 
@@ -1528,27 +1089,18 @@ Nous avons tout d’abord créé des liens avec la base en mode centralisée, Ry
 
 ````sql
 -- Connexion au site d’exploitation de la base en mode centralisé (Ryori/SID:DB1)
-
 CREATE DATABASE LINK LINK_EuS_R
-
 CONNECT TO dbrunet IDENTIFIED BY mdporacle
-
 USING 'DB1';
 
 -- Connexion au site d’Europe du Nord (SID:DB2)
-
 CREATE DATABASE LINK LINK_EuN
-
 CONNECT TO dbrunet IDENTIFIED BY mdporacle
-
 USING 'DB2';
 
 --Connexion au site d’Amérique (SID:DB4)
-
 CREATE DATABASE LINK LINK_A
-
 CONNECT TO dbrunet IDENTIFIED BY mdporacle
-
 USING 'DB4';
 ````
 
@@ -1562,88 +1114,59 @@ Ces tables ont été définies initialement par le biais d’une requête sur la
 -- Création des tables fragmentées horizontalement
 
 -- Création de la table CLIENTS_EuS (fragmentation primaire)
-
 CREATE TABLE CLIENTS_EuS AS (
-
     SELECT *
-
     FROM RYORI.CLIENTS@LINK_EuS_R
-
     WHERE PAYS IN (SELECT PAYS
-
               	FROM PAYS_CONTINENTS
-
               	WHERE CONTINENT='EuS')
-
   );
 ````
+
 ````sql
 -- Création de la table STOCK_EuS (fragmentation primaire)
-
   CREATE TABLE STOCK_EuS AS (
-
     SELECT *
-
     FROM RYORI.STOCK@LINK_EuS_R
-
     WHERE PAYS IN (SELECT PAYS
-
               	FROM PAYS_CONTINENTS
-
               	WHERE CONTINENT='EuS')
-
   );
 ````
+
 ````sql
 -- Création de la table COMMANDES_EuS (fragmentation dérivée)
-
   CREATE TABLE COMMANDES_EuS AS (
-
     SELECT *
-
     FROM RYORI.COMMANDES@LINK_EuS_R
-
     WHERE CODE_CLIENT IN (SELECT CODE_CLIENT
-
                     	FROM CLIENTS_EuS)
-
   );
 ````
+
 ````sql
 -- Création de la table DETAILS_COMMANDES_EuS (fragmentation dérivée)
-
   CREATE TABLE DETAILS_COMMANDES_EuS AS (
-
     SELECT *
-
     FROM RYORI.DETAILS_COMMANDES@LINK_EuS_R
-
     WHERE NO_COMMANDE IN (SELECT NO_COMMANDE
-
                     	FROM COMMANDES_EuS)
-
   );
 ````
+
 ````sql
 -- Création de la table PRODUITS
-
   CREATE TABLE PRODUITS AS (
-
     SELECT *
-
     FROM RYORI.PRODUITS@LINK_EuS_R
-
   );
 ````
+
 ````sql
 -- Création de la table CATEGORIES
-
   CREATE TABLE CATEGORIES AS (
-
     SELECT *
-
     FROM RYORI.CATEGORIES@LINK_EuS_R
-
   );
 ````
 
@@ -1654,27 +1177,16 @@ Les contraintes d’intégrité des différentes tables, mis à part les clé pr
 Ainsi, nous avons d’abord redéfini les clés primaires de chaque table de la manière suivante :
 ````sql
 -- Ajout des clées primaires
-
 ALTER TABLE CLIENTS_EUS
-
 ADD CONSTRAINT PK_CLIENTS_EUS PRIMARY KEY (CODE_CLIENT);
-
 ALTER TABLE COMMANDES_EUS ADD CONSTRAINT PK_COMMANDES_EUS PRIMARY KEY (NO_COMMANDE);
-
 ALTER TABLE DETAILS_COMMANDES_EUS
-
 ADD CONSTRAINT PK_DETAILS_COMMANDES_EUS PRIMARY KEY (NO_COMMANDE, REF_PRODUIT);
-
 ALTER TABLE STOCK_EUS
-
 ADD CONSTRAINT PK_STOCK_EUS PRIMARY KEY (REF_PRODUIT, PAYS);
-
 ALTER TABLE CATEGORIES
-
 ADD CONSTRAINT PK_CATEGORIES_EUS PRIMARY KEY (CODE_CATEGORIE);
-
 ALTER TABLE PRODUITS
-
 ADD CONSTRAINT PK_PRODUITS PRIMARY KEY (REF_PRODUIT);
 ````
 
@@ -1682,45 +1194,30 @@ Nous avons par la suite défini des clés étrangères, avec des suppressions en
 
 ````sql
 -- Ajout des clés étrangères
-
 -- Clé de la table STOCK_EUS référençant PRODUITS
-
 ALTER TABLE STOCK_EUS
-
 ADD CONSTRAINT FK_STOCK_EUS_PRODUITS_EUS FOREIGN KEY (REF_PRODUIT)
-
 REFERENCES PRODUITS (REF_PRODUIT);
+-- Clé de la table DETAILS_COMMANDES_EUS référençant PRODUITS                                                                
 
--- Clé de la table DETAILS_COMMANDES_EUS référençant PRODUITS                                                                                                                              ALTER TABLE DETAILS_COMMANDES_EUS
-
+ALTER TABLE DETAILS_COMMANDES_EUS
 ADD CONSTRAINT FK_DETAILS_EUS_PRODUITS_EUS FOREIGN KEY (REF_PRODUIT)
-
 REFERENCES PRODUITS (REF_PRODUIT);
 
 -- Clé de la table PRODUITS référençant CATEGORIES ALTER TABLE PRODUITS
-
 ADD CONSTRAINT FK_PRODUITS_EUS_CATEGORIES_EUS FOREIGN KEY (CODE_CATEGORIE)
-
 REFERENCES CATEGORIES (CODE_CATEGORIE);
-
 ON DELETE CASCADE;
 
 -- Clé de la table COMMANDES_EUS référençant CLIENTS_EUS ALTER TABLE COMMANDES_EUS
-
 ADD CONSTRAINT FK_COMMANDES_EUS_CLIENTS_EUS FOREIGN KEY (CODE_CLIENT)
-
 REFERENCES CLIENTS_EUS (CODE_CLIENT)
-
 ON DELETE CASCADE;
 
 -- Clé de la table DETAILS_COMMANDES_EUS référençant COMMANDES_EUS  
-
 ALTER TABLE DETAILS_COMMANDES_EUS
-
 ADD CONSTRAINT FK_DETAILS_EUS_COMMANDES_EUS FOREIGN KEY (NO_COMMANDE)
-
 REFERENCES COMMANDES_EUS (NO_COMMANDE)
-
 ON DELETE CASCADE;
 ````
 
@@ -1730,319 +1227,187 @@ Par la suite, nous avons donc mis en place des triggers pour remettre en place u
 -- Mise en place du trigger permettant de vérifier la cohérence entre les tables PRODUITS  et les tables fragmentées issues de Ryori.STOCK lors de la suppression d’un tuple de la table PRODUITS.
 
 CREATE OR REPLACE TRIGGER STOCK_DETAIL_PROD_DELETE
-
   AFTER DELETE OR UPDATE OF REF_PRODUIT ON PRODUITS
-
   FOR EACH ROW
-
 DECLARE
-
   Dummy              	INTEGER;
-
   Stock_Existant  	EXCEPTION;
-
 BEGIN
-
 SELECT COUNT(*) INTO Dummy
-
 FROM STOCK DCN
-
 WHERE DCN.REF_PRODUIT = :OLD.REF_PRODUIT;
-
   IF Dummy !=0 THEN
-
 	RAISE Stock_Existant; 	-- Dependent rows exist
-
   END IF;
-
 EXCEPTION
-
   WHEN Stock_Existant THEN
-
 	Raise_application_error(-20005, 'Stock présent contenant le produit : '
-
    	|| TO_CHAR(:OLD.REF_PRODUIT));
-
 END;
 /
 ````
+
 ````sql
 -- Mise en place du trigger permettant de vérifier la cohérence entre les tables PRODUITS  et les tables fragmentées issues de Ryori.DETAILS_COMMANDES lors de la suppression d’un tuple de la table PRODUITS.
 
 CREATE OR REPLACE TRIGGER STOCK_DETAIL_PROD_DELETE
-
   AFTER DELETE OR UPDATE OF REF_PRODUIT ON PRODUITS
-
   FOR EACH ROW
-
 DECLARE
-
   Dummy              	INTEGER;
-
   Commande_Existante  	EXCEPTION;
-
 BEGIN
-
 SELECT COUNT(*) INTO Dummy
-
 FROM DETAILS_COMMANDES DCN
-
 WHERE DCN.REF_PRODUIT = :OLD.REF_PRODUIT;
-
   IF Dummy !=0 THEN
-
 	RAISE Commande_Existante; 	-- Dependent rows exist
-
   END IF;
-
 EXCEPTION
-
   WHEN Stock_Existant THEN
-
 	Raise_application_error(-20005, 'Commande Existante présent contenant le produit : '
-
    	|| TO_CHAR(:OLD.REF_PRODUIT));
-
 END;
 /
 ````
+
 ````sql
 -- Mise en place du trigger permettant de vérifier la cohérence entre la table PRODUITS  et la table FOURNISSEUR, lors de l’ajout d’un tuple dans la table PRODUITS.
 
 CREATE OR REPLACE TRIGGER PROD_REF_FOURN_INSERT
-
   AFTER INSERT OR UPDATE OF NO_FOURNISSEUR ON PRODUITS
-
   FOR EACH ROW
-
 DECLARE
-
   Dummy              	INTEGER;
-
   FournissInexist  	EXCEPTION;
-
 BEGIN
-
 SELECT COUNT(*) INTO Dummy
-
 FROM FOURNISSEURS DCN
-
 WHERE DCN.NO_FOURNISSEUR = :NEW.NO_FOURNISSEUR;
-
   IF Dummy =0 THEN
-
 	RAISE FournissInexist; 	-- Dependent rows exist
-
   END IF;
-
 EXCEPTION
-
   WHEN FournissInexist THEN
-
 	Raise_application_error(-20002, 'Fournisseur non existant'
-
    	|| TO_CHAR(:NEW.NO_FOURNISSEUR));
 
 END;
 /
 ````
+
 ````sql
 -- Mise en place du trigger permettant de vérifier la cohérence entre la table COMMANDES_EUS et la table EMPLOYES, lors de l’ajout d’un tuple dans la table COMMANDES_EUS.
 
 CREATE OR REPLACE TRIGGER COMM_REF_EMP_INSERT
-
   AFTER INSERT OR UPDATE OF NO_EMPLOYE ON COMMANDES_EUS
-
   FOR EACH ROW
-
 DECLARE
-
   Dummy              	INTEGER;
-
   EmployeInexistant  	EXCEPTION;
-
 BEGIN
-
 SELECT COUNT(*) INTO Dummy
-
 FROM EMPLOYES DCN
-
 WHERE DCN.NO_EMPLOYE = :NEW.NO_EMPLOYE;
-
   IF Dummy =0 THEN
-
 	RAISE EmployeInexistant; 	-- Dependent rows exist
-
   END IF;
-
 EXCEPTION
-
   WHEN EmployeInexistant THEN
-
 	Raise_application_error(-20003, 'Employe non existant'
-
-   	|| TO_CHAR(:NEW.NO_EMPLOYE));
+ 	|| TO_CHAR(:NEW.NO_EMPLOYE));
 
 END;
 ````
 Enfin, nous avons écris les triggers permettant de gérer les clés primaires globales, c’est à dire celles des vues nouvellement créées.
 ````sql
 -- Mise en place de la clé primaire générale de la table COMMANDES à partir de la table COMMANDES_EuS
-
 CREATE OR REPLACE TRIGGER CLE_PRIM_COMM
-
   AFTER INSERT OR UPDATE OF NO_COMMANDE ON COMMANDES_EUS
-
   FOR EACH ROW
-
 DECLARE
-
   Dummy              	INTEGER;
-
   CleNonUnique  	EXCEPTION;
-
 BEGIN
-
 SELECT COUNT(*) INTO Dummy
-
 FROM COMMANDES DCN
-
 WHERE DCN.NO_COMMANDE = :NEW.NO_COMMANDE;
-
   IF Dummy !=0 THEN
-
 	RAISE CleNonUnique; 	-- Dependent rows exist
-
   END IF;
-
 EXCEPTION
-
   WHEN CleNonUnique THEN
-
 	Raise_application_error(-20006, 'NO_COMMANDE non unique'
-
    	|| TO_CHAR(:NEW.NO_COMMANDE));
-
 END;
 /
 ````
 ````sql
 -- Mise en place de la clé primaire générale de la table CLIENTS à partir de la table CLIENTS_EuS
-
 CREATE OR REPLACE TRIGGER CLE_PRIM_CLIENT
-
   AFTER INSERT OR UPDATE OF CODE_CLIENT ON CLIENTS_EUS
-
   FOR EACH ROW
-
 DECLARE
-
   Dummy              	INTEGER;
-
   CleNonUnique  	EXCEPTION;
-
 BEGIN
 
 SELECT COUNT(*) INTO Dummy
-
 FROM CLIENTS DCN
-
 WHERE DCN.CODE_CLIENTE = :NEW.CODE_CLIENT;
-
   IF Dummy !=0 THEN
-
 	RAISE CleNonUnique; 	-- Dependent rows exist
-
   END IF;
-
 EXCEPTION
-
   WHEN CleNonUnique THEN
-
 	Raise_application_error(-20006, 'CODE_CLIENT non unique'
-
    	|| TO_CHAR(:NEW.NO_COMMANDE));
-
 END;
 /
 ````
+
 ````sql
 -- Mise en place de la clé primaire générale de la table DETAILS_COMMANDES à partir de la table DETAILS_COMMANDES_EuS
-
 CREATE OR REPLACE TRIGGER CLE_PRIM_DETAILS_COMM
-
   AFTER INSERT OR UPDATE ON DETAILS_COMMANDES_EUS
-
   FOR EACH ROW
-
 DECLARE
-
   Dummy              	INTEGER;
-
   CleNonUnique  	EXCEPTION;
-
 BEGIN
-
 SELECT COUNT(*) INTO Dummy
-
 FROM DETAILS_COMMANDES DCN
-
 WHERE DCN.NO_COMMANDE = :NEW.NO_COMMANDE AND DCN.REF_PRODUIT = :NEW.REF_PRODUIT;
-
   IF Dummy !=0 THEN
-
 	RAISE CleNonUnique; 	-- Dependent rows exist
-
   END IF;
-
 EXCEPTION
-
   WHEN CleNonUnique THEN
-
 	Raise_application_error(-20006, 'NO_COMMANDE et REF_PRODUIT non unique'
-
    	|| TO_CHAR(:NEW.NO_COMMANDE));
-
 END;
 /
 ````
+
 ````sql
 -- Mise en place de la clé primaire générale de la table STOCK à partir de la table STOCK_EuS
-
 CREATE OR REPLACE TRIGGER CLE_PRIM_STOCK
-
   AFTER INSERT OR UPDATE ON STOCK_EUS
-
   FOR EACH ROW
-
 DECLARE
-
   Dummy              	INTEGER;
-
   CleNonUnique  	EXCEPTION;
-
 BEGIN
-
 SELECT COUNT(*) INTO Dummy
-
 FROM STOCK DCN
-
 WHERE DCN.PAYS = :NEW.PAYS AND DCN.REF_PRODUIT = :NEW.REF_PRODUIT;
-
   IF Dummy !=0 THEN
-
 	RAISE CleNonUnique; 	-- Dependent rows exist
-
   END IF;
-
 EXCEPTION
-
   WHEN CleNonUnique THEN
-
 	Raise_application_error(-20006, 'PAYS et REF_PRODUIT non unique'
-
    	|| TO_CHAR(:NEW.NO_COMMANDE));
-
 END; 
 ````
 #### e) Droits d’accès
@@ -2050,89 +1415,53 @@ END;
 Comme l’application DesignIt est la seule à modifier les tables CATEGORIES et PRODUITS, et qu’elle n’est présente que sur notre site (Europe du Sud), nous ne donnons que les droits en sélection aux autres membres.
 ````sql
 -- Droits de sélection sur la table CATEGORIES
-
 GRANT SELECT
-
 ON CATEGORIES TO FROBION;
-
 GRANT SELECT
-
 ON CATEGORIES TO ASULTAN;
-
 GRANT SELECT
-
 ON CATEGORIES TO CSAMBORSKI;
 
 -- Droits de sélection sur la table PRODUITS
-
 GRANT SELECT
-
 ON PRODUITS TO FROBION;
-
 GRANT SELECT
-
 ON PRODUITS TO ASULTAN;
-
 GRANT SELECT
-
 ON PRODUITS TO CSAMBORSKI;
 ````
 Pour les autres tables, pour simuler la présence d’une seule et unique base de données, nous avons donné tous les droits aux autres membres.
 ````sql
 -- Droits sur la table CLIENTS_EuS
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON CLIENTS_EUS TO FROBION;
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON CATEGORIES_EUS TO ASULTAN;
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON CLIENTS_EUS TO CSAMBORSKI;
 
 -- Droits sur la table COMMANDES_EuS
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON COMMANDES_EUS TO FROBION;
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON COMMANDES_EUS TO ASULTAN;
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON COMMANDES_EUS TO CSAMBORSKI;
 
 -- Droits sur la table COMMANDES_EuS
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON DETAILS_COMMANDES_EUS TO FROBION;
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON DETAILS_COMMANDES_EUS TO ASULTAN;
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON DETAILS_COMMANDES_EUS TO CSAMBORSKI;
 
 -- Droits sur la table STOCK_EuS
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON STOCK_EUS TO FROBION;
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON STOCK_EUS TO ASULTAN;
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON STOCK_EUS TO CSAMBORSKI;
 ````
 
@@ -2141,330 +1470,170 @@ ON STOCK_EUS TO CSAMBORSKI;
 Nous avons tout d’abord créé des synonymes afin de pouvoir manipuler les tables sans spécifier le lien initialement créé.
 ````sql
 CREATE SYNONYM FOURNISSEURS FOR csamborski.FOURNISSEURS@LINK_EuN
-
 CREATE SYNONYM EMPLOYES FOR frobion.EMPLOYES@LINK_A
-
 CREATE SYNONYM CLIENTS_EuN FOR csamborski.CLIENTS_EuN@LINK_EuN;
-
 CREATE SYNONYM STOCK_EuN FOR csamborski.STOCK_EuN@LINK_EuN;
-
 CREATE SYNONYM COMMANDES_EuN FOR csamborski.COMMANDES_EuN@LINK_EuN;
-
 CREATE SYNONYM DETAILS_COMMANDES_EuN FOR csamborski.DETAILS_COMMANDES_EuN@LINK_EuN;
-
 CREATE SYNONYM CLIENTS_A FOR frobion.CLIENTS_A@LINK_A;
-
 CREATE SYNONYM STOCK_A FOR frobion.STOCK_A@LINK_A;
-
 CREATE SYNONYM COMMANDES_A FOR frobion.COMMANDES_A@LINK_A;
-
 CREATE SYNONYM DETAILS_COMMANDES_A FOR frobion.DETAILS_COMMANDES_A@LINK_A;
-
 CREATE SYNONYM CLIENTS_Autres FOR csamborski.CLIENTS_Autres@LINK_EuN;
-
 CREATE SYNONYM STOCK_Autres FOR csamborski.STOCK_Autres@LINK_EuN;
-
 CREATE SYNONYM COMMANDES_Autres FOR csamborski.COMMANDES_Autres@LINK_EuN;
-
 CREATE SYNONYM DETAILS_COMMANDES_AUTRES FOR csamborski.DETAILS_COMMANDES_AUTRES@LINK_EuN;
 ````
 Nous avons par la suite créé des vues afin de manipuler les mêmes tables que celles présentes dans la base en mode centralisée (Ryori) de la manière suivante :
 
 ````sql
 -- Création de la vue CLIENTS, regroupant les trois fragments de la table Ryori.CLIENTS
-
 CREATE OR REPLACE VIEW Clients AS (
-
   SELECT *
-
   FROM Clients_EuN
-
   WHERE pays = 'Norvege'
-
   OR pays = 'Suede'
-
   OR pays = 'Danemark'
-
   OR pays = 'Islande'
-
   OR pays = 'Finlande'
-
   OR pays = 'Royaume-Uni'
-
   OR pays = 'Irlande'
-
   OR pays = 'Belgique'
-
   OR pays = 'Luxembourg'
-
   OR pays = 'Pays_Bas'
-
   OR pays = 'Allemagne'
-
   OR pays = 'Pologne'
-
   UNION ALL
-
   SELECT *
-
   FROM Clients_EuS
-
   WHERE pays = 'Espagne'
-
   OR pays = 'Portugal'
-
   OR pays = 'Andorre'
-
   OR pays = 'France'
-
   OR pays = 'Gibraltar'
-
   OR pays = 'Italie'
-
   OR pays = 'Saint-Marin'
-
   OR pays = 'Vatican'
-
   OR pays = 'Malte'
-
   OR pays = 'Albanie'
-
   OR pays = 'Bosnie-Herzegovine'
-
   OR pays = 'Croatie'
-
   OR pays = 'Grece'
-
   OR pays = 'Macedoine'
-
   OR pays = 'Montenegro'
-
   OR pays = 'Serbie'
-
   OR pays = 'Slovenie'
-
   OR pays = 'Bulgarie'
-
   OR pays = 'Autriche'
-
   OR pays = 'Suisse'
-
   UNION ALL
-
   SELECT *
-
   FROM Clients_A
-
   WHERE pays = 'Antigua-et-Barbuda'
-
   OR pays = 'Argentine'
-
   OR pays = 'Bahamas'
-
   OR pays = 'Barbade'
-
   OR pays = 'Belize'
-
   OR pays = 'Bolivie'
-
   OR pays = 'Bresil'
-
   OR pays = 'Canada'
-
   OR pays = 'Chili'
-
   OR pays = 'Colombie'
-
   OR pays = 'Costa Rica'
-
   OR pays = 'Cuba'
-
   OR pays = 'Republique dominicaine'
-
   OR pays = 'Dominique'
-
   OR pays = 'Equateur'
-
   OR pays = 'Etats-Unis'
-
   OR pays = 'Grenade'
-
   OR pays = 'Guatemala'
-
   OR pays = 'Guyana'
-
   OR pays = 'Haiti'
-
   OR pays = 'Honduras'
-
   OR pays = 'Jamaique'
-
   OR pays = 'Mexique'
-
   OR pays = 'Nicaragua'
-
   OR pays = 'Panama'
-
   OR pays = 'Paraguay'
-
   OR pays = 'Perou'
-
   OR pays = 'Saint-Christophe-et-Nieves'
-
   OR pays = 'Sainte-Lucie'
-
   OR pays = 'Saint-Vincent-et-les-Grenadines'
-
   OR pays = 'Salvador'
-
   OR pays = 'Suriname'
-
   OR pays = 'Trinite-et-Tobago'
-
   OR pays = 'Uruguay'
-
   OR pays = 'Venezuela'
-
   UNION ALL
-
   SELECT *
-
   FROM Clients_Autres
-
   WHERE pays <> 'Norvege'
-
   AND pays <> 'Suede'
-
   AND pays <> 'Danemark'
-
   AND pays <> 'Islande'
-
   AND pays <> 'Finlande'
-
   AND pays <> 'Royaume-Uni'
-
   AND pays <> 'Irlande'
-
   AND pays <> 'Belgique'
-
   AND pays <> 'Luxembourg'
-
   AND pays <> 'Pays_Bas'
-
   AND pays <> 'Allemagne'
-
   AND pays <> 'Pologne'
-
   AND pays <> 'Espagne'
-
   AND pays <> 'Portugal'
-
   AND pays <> 'Andorre'
-
   AND pays <> 'France'
-
   AND pays <> 'Gibraltar'
-
   AND pays <> 'Italie'
-
   AND pays <> 'Saint-Marin'
-
   AND pays <> 'Vatican'
-
   AND pays <> 'Malte'
-
   AND pays <> 'Albanie'
-
   AND pays <> 'Bosnie-Herzegovine'
-
   AND pays <> 'Croatie'
-
   AND pays <> 'Grece'
-
   AND pays <> 'Macedoine'
-
   AND pays <> 'Montenegro'
-
   AND pays <> 'Serbie'
-
   AND pays <> 'Slovenie'
-
   AND pays <> 'Bulgarie'
-
   AND pays <> 'Autriche'
-
   AND pays <> 'Suisse'
-
   AND pays <> 'Antigua-et-Barbuda'
-
   AND pays <> 'Argentine'
-
   AND pays <> 'Bahamas'
-
   AND pays <> 'Barbade'
-
   AND pays <> 'Belize'
-
   AND pays <> 'Bolivie'
-
   AND pays <> 'Bresil'
-
   AND pays <> 'Canada'
-
   AND pays <> 'Chili'
-
   AND pays <> 'Colombie'
-
   AND pays <> 'Costa Rica'
-
   AND pays <> 'Cuba'
-
   AND pays <> 'Republique dominicaine'
-
   AND pays <> 'Dominique'
-
   AND pays <> 'Equateur'
-
   AND pays <> 'Etats-Unis'
-
   AND pays <> 'Grenade'
-
   AND pays <> 'Guatemala'
-
   AND pays <> 'Guyana'
-
   AND pays <> 'Haiti'
-
   AND pays <> 'Honduras'
-
   AND pays <> 'Jamaique'
-
   AND pays <> 'Mexique'
-
   AND pays <> 'Nicaragua'
-
   AND pays <> 'Panama'
-
   AND pays <> 'Paraguay'
-
   AND pays <> 'Perou'
-
   AND pays <> 'Saint-Christophe-et-Nieves'
-
   AND pays <> 'Sainte-Lucie'
-
   AND pays <> 'Saint-Vincent-et-les-Grenadines'
-
   AND pays <> 'Salvador'
-
   AND pays <> 'Suriname'
-
   AND pays <> 'Trinite-et-Tobago'
-
   AND pays <> 'Uruguay'
-
   AND pays <> 'Venezuela'
-
 );
 ````
 
@@ -2472,299 +1641,152 @@ Remarque : Nous avons opéré de la même manière pour la table STOCK.
 
 ````sql
 -- Création de la vue COMMANDES, regroupant les trois fragments de la table Ryori.COMMANDES
-
 CREATE OR REPLACE VIEW Commandes AS (
-
   SELECT Co_EuN.*
-
   FROM Commandes_EuN Co_EuN JOIN Clients_EuN Cl_EuN ON (Co_EuN.code_client = Cl_EuN.code_client)
-
   WHERE pays = 'Norvege'
-
   OR pays = 'Suede'
-
   OR pays = 'Danemark'
-
   OR pays = 'Islande'
-
   OR pays = 'Finlande'
-
   OR pays = 'Royaume-Uni'
-
   OR pays = 'Irlande'
-
   OR pays = 'Belgique'
-
   OR pays = 'Luxembourg'
-
   OR pays = 'Pays_Bas'
-
   OR pays = 'Allemagne'
-
   OR pays = 'Pologne'
-
   UNION ALL
-
   SELECT Co_EuS.*
-
   FROM Commandes_EuS Co_EuS JOIN Clients_EuS Cl_EuS ON (Co_EuS.code_client = Cl_EuS.code_client)
-
   WHERE pays = 'Espagne'
-
   OR pays = 'Portugal'
-
   OR pays = 'Andorre'
-
   OR pays = 'France'
-
   OR pays = 'Gibraltar'
-
   OR pays = 'Italie'
-
   OR pays = 'Saint-Marin'
-
   OR pays = 'Vatican'
-
   OR pays = 'Malte'
-
   OR pays = 'Albanie'
-
   OR pays = 'Bosnie-Herzegovine'
-
   OR pays = 'Croatie'
-
   OR pays = 'Grece'
-
   OR pays = 'Macedoine'
-
   OR pays = 'Montenegro'
-
   OR pays = 'Serbie'
-
   OR pays = 'Slovenie'
-
   OR pays = 'Bulgarie'
-
   OR pays = 'Autriche'
-
   OR pays = 'Suisse'
-
   UNION ALL
-
   SELECT Co_A.*
-
   FROM Commandes_A Co_A JOIN Clients_A Cl_A ON (Co_A.code_client = Cl_A.code_client)
-
   WHERE pays = 'Antigua-et-Barbuda'
-
   OR pays = 'Argentine'
-
   OR pays = 'Bahamas'
-
   OR pays = 'Barbade'
-
   OR pays = 'Belize'
-
   OR pays = 'Bolivie'
-
   OR pays = 'Bresil'
-
   OR pays = 'Canada'
-
   OR pays = 'Chili'
-
   OR pays = 'Colombie'
-
   OR pays = 'Costa Rica'
-
   OR pays = 'Cuba'
-
   OR pays = 'Republique dominicaine'
-
   OR pays = 'Dominique'
-
   OR pays = 'Equateur'
-
   OR pays = 'Etats-Unis'
-
   OR pays = 'Grenade'
-
   OR pays = 'Guatemala'
-
   OR pays = 'Guyana'
-
   OR pays = 'Haiti'
-
   OR pays = 'Honduras'
-
   OR pays = 'Jamaique'
-
   OR pays = 'Mexique'
-
   OR pays = 'Nicaragua'
-
   OR pays = 'Panama'
-
   OR pays = 'Paraguay'
-
   OR pays = 'Perou'
-
   OR pays = 'Saint-Christophe-et-Nieves'
-
   OR pays = 'Sainte-Lucie'
-
   OR pays = 'Saint-Vincent-et-les-Grenadines'
-
   OR pays = 'Salvador'
-
   OR pays = 'Suriname'
-
   OR pays = 'Trinite-et-Tobago'
-
   OR pays = 'Uruguay'
-
   OR pays = 'Venezuela'
-
   UNION ALL
-
   SELECT Co_Autres.*
-
   FROM Commandes_Autres Co_Autres JOIN Clients_Autres Cl_Autres ON (Co_Autres.code_client =    Cl_Autres.code_client)
-
   WHERE pays <> 'Norvege'
-
   AND pays <> 'Suede'
-
   AND pays <> 'Danemark'
-
   AND pays <> 'Islande'
-
   AND pays <> 'Finlande'
-
   AND pays <> 'Royaume-Uni'
-
   AND pays <> 'Irlande'
-
   AND pays <> 'Belgique'
-
   AND pays <> 'Luxembourg'
-
   AND pays <> 'Pays_Bas'
-
   AND pays <> 'Allemagne'
-
   AND pays <> 'Pologne'
-
   AND pays <> 'Espagne'
-
   AND pays <> 'Portugal'
-
   AND pays <> 'Andorre'
-
   AND pays <> 'France'
-
   AND pays <> 'Gibraltar'
-
   AND pays <> 'Italie'
-
   AND pays <> 'Saint-Marin'
-
   AND pays <> 'Vatican'
-
   AND pays <> 'Malte'
-
   AND pays <> 'Albanie'
-
   AND pays <> 'Bosnie-Herzegovine'
-
   AND pays <> 'Croatie'
-
   AND pays <> 'Grece'
-
   AND pays <> 'Macedoine'
-
   AND pays <> 'Montenegro'
-
   AND pays <> 'Serbie'
-
   AND pays <> 'Slovenie'
-
   AND pays <> 'Bulgarie'
-
   AND pays <> 'Autriche'
-
   AND pays <> 'Suisse'
-
   AND pays <> 'Antigua-et-Barbuda'
-
   AND pays <> 'Argentine'
-
   AND pays <> 'Bahamas'
-
   AND pays <> 'Barbade'
-
   AND pays <> 'Belize'
-
   AND pays <> 'Bolivie'
-
   AND pays <> 'Bresil'
-
   AND pays <> 'Canada'
-
   AND pays <> 'Chili'
-
   AND pays <> 'Colombie'
-
   AND pays <> 'Costa Rica'
-
   AND pays <> 'Cuba'
-
   AND pays <> 'Republique dominicaine'
-
   AND pays <> 'Dominique'
-
   AND pays <> 'Equateur'
-
   AND pays <> 'Etats-Unis'
-
   AND pays <> 'Grenade'
-
   AND pays <> 'Guatemala'
-
   AND pays <> 'Guyana'
-
   AND pays <> 'Haiti'
-
   AND pays <> 'Honduras'
-
   AND pays <> 'Jamaique'
-
   AND pays <> 'Mexique'
-
   AND pays <> 'Nicaragua'
-
   AND pays <> 'Panama'
-
   AND pays <> 'Paraguay'
-
   AND pays <> 'Perou'
-
   AND pays <> 'Saint-Christophe-et-Nieves'
-
   AND pays <> 'Sainte-Lucie'
-
   AND pays <> 'Saint-Vincent-et-les-Grenadines'
-
   AND pays <> 'Salvador'
-
   AND pays <> 'Suriname'
-
   AND pays <> 'Trinite-et-Tobago'
-
   AND pays <> 'Uruguay'
-
   AND pays <> 'Venezuela'
-
 );
 ````
 
@@ -2784,257 +1806,145 @@ Après la mise en place des synonymes, des tables et des vues, nous avons vérif
 
 ````sql
 -- Test CLIENTS
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.CLIENTS@LINK_EuS_R
-
     MINUS
-
     SELECT * FROM CLIENTS
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM CLIENTS
-
     MINUS
-
     SELECT * FROM Ryori.CLIENTS@LINK_EuS_R
-
   )
-
 );
 ````
  
 ````sql
 -- Test EMPLOYES
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.EMPLOYES@LINK_EuS_R
-
     MINUS
-
     SELECT * FROM EMPLOYES
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM EMPLOYES
-
     MINUS
-
     SELECT * FROM Ryori.EMPLOYES@LINK_EuS_R
-
   )
-
 );
 ````
  
 ````sql
 -- Test COMMANDES
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.COMMANDES@LINK_EuS_R
-
     MINUS
-
     SELECT * FROM COMMANDES
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM COMMANDES
-
     MINUS
-
     SELECT * FROM Ryori.COMMANDES@LINK_EuS_R
-
   )
-
 );
 ````
  
 `````sql
 -- Test DETAILS_COMMANDES
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.DETAILS_COMMANDES@LINK_EuS_R
-
     MINUS
-
     SELECT * FROM DETAILS_COMMANDES
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM DETAILS_COMMANDES
-
     MINUS
-
     SELECT * FROM Ryori.DETAILS_COMMANDES@LINK_EuS_R
-
   )
-
 );
 ````
  
 ````sql
 -- Test STOCK
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.STOCK@LINK_EuS_R
-
     MINUS
-
     SELECT * FROM STOCK
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM STOCK
-
     MINUS
-
     SELECT * FROM Ryori.STOCK@LINK_EuS_R
-
   )
-
 );
 ````
- 
+
 ````sql
 -- Test PRODUITS
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.PRODUITS@LINK_EUS_R
-
     MINUS
-
     SELECT * FROM PRODUITS
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM PRODUITS
-
     MINUS
-
     SELECT * FROM Ryori.PRODUITS@LINK_EuS_R
-
   )
-
 );
 ````
  
 `````sql
 -- Test CATEGORIES
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.CATEGORIES@LINK_EuS_R
-
     MINUS
-
     SELECT * FROM CATEGORIES
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM CATEGORIES
-
     MINUS
-
     SELECT * FROM Ryori.CATEGORIES@LINK_EuS_R
-
   )
-
 );
 ````
  
 ````sql
 -- Test FOURNISSEURS
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.FOURNISSEURS@LINK_EuS_R
-
     MINUS
-
     SELECT * FROM FOURNISSEURS
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM FOURNISSEURS
-
     MINUS
-
     SELECT * FROM Ryori.FOURNISSEURS@LINK_EuS_R
-
   )
-
 );
 ````
 
@@ -3042,19 +1952,12 @@ Réponses :
 
 ````txt
 0
-
 0
-
 0
-
 0
-
 0
-
 0
-
 0
-
 0
 ````
 Conclusion : Les tuples sont présents à l’identique dans les tables nouvellement créées et dans la base centralisée.
@@ -3073,11 +1976,8 @@ Le site Amérique est sous la responsabilité du binôme **B3234**
 
 ````sql
 -- Création des liens
-
 CREATE DATABASE LINK link_A_R connect to frobion identified by mdporacle using 'DB1';
-
 CREATE DATABASE LINK link_A_EuN CONNECT TO frobion IDENTIFIED BY mdporacle USING 'DB2';
-
 CREATE DATABASE LINK link_A_EuS CONNECT TO frobion IDENTIFIED BY mdporacle USING 'DB3';
 ````
 
@@ -3087,81 +1987,49 @@ Nous avons crée les tables grâce à une requête. Ainsi, les tables sont direc
 
 ````sql
 CREATE TABLE Clients_A AS (
-
   SELECT *
-
   FROM Ryori.Clients@link_A_R C
-
   WHERE C.pays IN (
-
     SELECT PC.pays
-
     FROM Pays_Continents PC
-
     WHERE PC.continent = 'A'
-
   )
-
 );
 ````
 
 ````sql
 CREATE TABLE Stock_A AS (
-
   SELECT *
-
   FROM Ryori.Stock@link_A_R S
-
   WHERE S.pays IN (
-
     SELECT PC.pays
-
     FROM Pays_Continents PC
-
     WHERE PC.continent = 'A'
-
   )
-
 );
 ````
+
 ````sql
 CREATE TABLE Commandes_A AS (
-
   SELECT Co.*
-
   FROM Ryori.Commandes@link_A_R Co join Ryori.Clients@link_A_R Cl on (Co.code_client = Cl.code_client)
-
   WHERE Cl.pays IN (
-
     SELECT PC.pays
-
     FROM Pays_Continents PC
-
     WHERE PC.continent = 'A'
-
   )
-
 );
 ````
 ````sql
 CREATE TABLE Details_Commandes_A AS (
-
   SELECT DC.*
-
   FROM (Ryori.Details_Commandes@link_A_R DC join Ryori.Commandes@link_A_R Co on (Co.no_commandes = DC.no_commandes)) 
-
       join Ryori.Clients@link_A_R Cl on (Cl.code_client = Co.code_client)
-
   WHERE Cl.pays IN (
-
     SELECT PC.pays
-
     FROM Pays_Continents PC
-
     WHERE PC.continent = 'A'
-
   )
-
 );
 ````
 
@@ -3173,179 +2041,101 @@ Premièrement, toutes les contraintes qui pouvaient s’exprimer en locale, grâ
 
 ````sql
 -- Création des contraintes n'utilisant que des tables locales.
-
 -- Ajout des clés primaires
-
 ALTER TABLE Clients_A ADD CONSTRAINT PK_Clients_A PRIMARY KEY (code_client);
-
 ALTER TABLE Commandes_A ADD CONSTRAINT PK_Commandes_A PRIMARY KEY (no_commande);
-
 ALTER TABLE Stock_A ADD CONSTRAINT PK_Stock_A PRIMARY KEY (ref_produit, pays);
-
 ALTER TABLE Details_Commandes_A ADD CONSTRAINT PK_Details_Commandes_A PRIMARY KEY (no_commande, ref_produit);
-
 ALTER TABLE Employes ADD CONSTRAINT PK_Employes PRIMARY KEY (no_employe);
 
 --Ajout des clés étrangères qui fonctionnent en local
-
 ALTER TABLE Commandes_A ADD CONSTRAINT FK_Commandes_A_Clients_A 
-
   FOREIGN KEY (code_client) REFERENCES Clients_A (code_client);
-
 ALTER TABLE Employes ADD CONSTRAINT FK_Employes_Employes
-
   FOREIGN KEY (rend_compte) REFERENCES Employes (no_employe);
-
 ALTER TABLE Details_Commandes_A ADD CONSTRAINT FK_DC_A_Commandes_A
-
   FOREIGN KEY (no_commande) REFERENCES Commandes_A (no_commande);
-
 ALTER TABLE Commandes_A ADD CONSTRAINT FK_Commandes_A_Employes
-
   FOREIGN KEY (no_employe) REFERENCES Employes (no_employe);
 ````
 
 ````sql
 --Création des contraintes utilisant des tables non locales, avec des triggers.
-
 -- Clé étrangère de Stock_A vers Produit
-
 -- ALTER TABLE Stock_A ADD CONSTRAINT FK_Stock_A_Produits
-
 --   FOREIGN KEY (ref_produit) REFERENCES Produits (ref_produit);
+````
 
+````sql
 CREATE OR REPLACE TRIGGER FK_Stock_A_Produits
-
   AFTER INSERT OR UPDATE OF ref_produit ON Stock_A
-
   FOR EACH ROW
-
 DECLARE
-
   Res                               INTEGER;
-
   UNKNOWN_FK_PRODUIT_EXCEPTION      EXCEPTION;
-
 BEGIN
-
   SELECT COUNT(*) INTO Res
-
   FROM Produits P
-
   WHERE P.ref_produit = :NEW.ref_produit;
 
-  
-
   IF Res = 0 THEN
-
     RAISE UNKNOWN_FK_PRODUIT_EXCEPTION;
-
   END IF;
-
 EXCEPTION
-
   WHEN UNKNOWN_FK_PRODUIT_EXCEPTION THEN
-
   Raise_application_error(-20002, 'Erreur de contrainte <FK_Stock_A_Produits>; aucun produit ne possede l id ' 
-
       || TO_CHAR(:NEW.ref_produit));
-
 END;
-
 /
 ````
 ````sql
 -- Table Details_Commandes_A
-
 -- ALTER TABLE Details_Commandes_A ADD CONSTRAINT FK_DC_A_Produits
-
 --   FOREIGN KEY (ref_produit) REFERENCES Produits (ref_produit);
-
 CREATE OR REPLACE TRIGGER FK_DC_A_Produits
-
   AFTER INSERT OR UPDATE OF ref_produit ON Details_Commandes_A
-
   FOR EACH ROW
-
 DECLARE
-
   Res                               INTEGER;
-
   UNKNOWN_FK_PRODUIT_EXCEPTION      EXCEPTION;
-
 BEGIN
-
   SELECT COUNT(*) INTO Res
-
   FROM Produits P
-
   WHERE P.ref_produit = :NEW.ref_produit;
 
-  
-
   IF Res = 0 THEN
-
     RAISE UNKNOWN_FK_PRODUIT_EXCEPTION;
-
   END IF;
-
 EXCEPTION
-
   WHEN UNKNOWN_FK_PRODUIT_EXCEPTION THEN
-
   Raise_application_error(-20003, 'Erreur de contrainte <FK_DC_A_Produits>; aucun produit ne possede l id ' 
-
       || TO_CHAR(:NEW.ref_produit));
-
 END;
-
 /
 ````
 
 ````sql
-
 -- clé étrangère de Commandes_<suffixe> vers Employes
-
 -- ALTER  TABLE Commandes_<suffixe> ADD CONSTRAINT FK_Commandes_Employes
-
 --  FOREIGN KEY (no_employe) REFERENCES Employes (no_employe);
-
 CREATE OR REPLACE TRIGGER FK_Commandes_Employes
-
   AFTER UPDATE OR DELETE OF no_employe ON Employes
-
   FOR EACH ROW
-
 DECLARE
-
   Res                               INTEGER;
-
   UNKNOWN_FK_EXCEPTION              EXCEPTION;
-
 BEGIN
-
   SELECT COUNT(*) INTO Res
-
   FROM Commandes
-
   WHERE no_employe = :OLD.no_employe;
 
-  
-
   IF Res = 0
-
     RAISE UNKNOWN_FK_EXCEPTION;
-
   END IF;
-
 EXCEPTION
-
   WHEN UNKNOWN_FK_EXCEPTION THEN
-
   Raise_application_error(-20004, 'Erreur de contrainte <FK_Commandes_Employes>; une commandes possede l id'
-
       || TO_CHAR(:OLD.no_employe));
-
 END;
 ````
 
@@ -3355,23 +2145,14 @@ Nous avons décidé de donner tous les droits d’accès (insertion, mise à jou
 
 ````sql
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON Clients_A TO dbrunet, csamborski;
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON Commandes_A TO dbrunet, csamborski;
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON Details_Commandes_A TO dbrunet, csamborski;
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON Stock_A TO dbrunet, csamborski;
-
 GRANT INSERT, UPDATE, DELETE, SELECT
-
 ON Employes TO dbrunet, csamborski;
 ````
 
@@ -3379,37 +2160,22 @@ ON Employes TO dbrunet, csamborski;
 
 ````sql
 -- Creation synonyme du site Europe du Sud
-
 CREATE OR REPLACE SYNONYM Categories FOR dbrunet.Categories@Link_A_EuS;
-
 CREATE OR REPLACE SYNONYM Produits FOR dbrunet.Produits@Link_A_EuS;
-
 CREATE OR REPLACE SYNONYM Clients_EuS FOR dbrunet.Clients_EuS@Link_A_EuS;
-
 CREATE OR REPLACE SYNONYM Commandes_EuS FOR dbrunet.Commandes_EuS@Link_A_EuS;
-
 CREATE OR REPLACE SYNONYM Details_Commandes_EuS FOR dbrunet.Details_Commandes_EuS@Link_A_EuS;
-
 CREATE OR REPLACE SYNONYM Stock_EuS FOR dbrunet.Stock_EuS@Link_A_EuS;
 
 -- Creation synonyme du site Europe du Nord
-
 CREATE OR REPLACE SYNONYM Fournisseurs FOR csamborski.Fournisseurs@Link_A_EuN;
-
 CREATE OR REPLACE SYNONYM Clients_EuN FOR csamborski.Clients_EuN@Link_A_EuN;
-
 CREATE OR REPLACE SYNONYM Commandes_EuN FOR csamborski.Commandes_EuN@Link_A_EuN;
-
 CREATE OR REPLACE SYNONYM Details_Commandes_EuN FOR csamborski.Details_Commandes_EuN@Link_A_EuN;
-
 CREATE OR REPLACE SYNONYM Stock_EuN FOR csamborski.Stock_EuN@Link_A_EuN;
-
 CREATE OR REPLACE SYNONYM Clients_Autres FOR csamborski.Clients_Autres@Link_A_EuN;
-
 CREATE OR REPLACE SYNONYM Commandes_Autres FOR csamborski.Commandes_Autres@Link_A_EuN;
-
 CREATE OR REPLACE SYNONYM Details_Commandes_Autres FOR csamborski.Details_Commandes_Autres@Link_A_EuN;
-
 CREATE OR REPLACE SYNONYM Stock_Autres FOR csamborski.Stock_Autres@Link_A_EuN;
 ````
 
@@ -3417,1193 +2183,606 @@ Lors de la création des vues, nous avons mis des clauses WHERE qui ne serviront
 
 ````sql
 -- Création des vues, pour pouvoir interagir avec la base comme si elle était centralisé
-
 CREATE OR REPLACE VIEW Clients AS (
-
   SELECT *
-
   FROM Clients_EuN
-
   WHERE pays = 'Norvege'
-
   OR pays = 'Suede'
-
   OR pays = 'Danemark'
-
   OR pays = 'Islande'
-
   OR pays = 'Finlande'
-
   OR pays = 'Royaume-Uni'
-
   OR pays = 'Irlande'
-
   OR pays = 'Belgique'
-
   OR pays = 'Luxembourg'
-
   OR pays = 'Pays_Bas'
-
   OR pays = 'Allemagne'
-
   OR pays = 'Pologne'
-
   UNION ALL
-
   SELECT *
-
   FROM Clients_EuS
-
   WHERE pays = 'Espagne'
-
   OR pays = 'Portugal'
-
   OR pays = 'Andorre'
-
   OR pays = 'France'
-
   OR pays = 'Gibraltar'
-
   OR pays = 'Italie'
-
   OR pays = 'Saint-Marin'
-
   OR pays = 'Vatican'
-
   OR pays = 'Malte'
-
   OR pays = 'Albanie'
-
   OR pays = 'Bosnie-Herzegovine'
-
   OR pays = 'Croatie'
-
   OR pays = 'Grece'
-
   OR pays = 'Macedoine'
-
   OR pays = 'Montenegro'
-
   OR pays = 'Serbie'
-
   OR pays = 'Slovenie'
-
   OR pays = 'Bulgarie'
-
   OR pays = 'Autriche'
-
   OR pays = 'Suisse'
-
   UNION ALL
-
   SELECT *
-
   FROM Clients_A
-
   WHERE pays = 'Antigua-et-Barbuda'
-
   OR pays = 'Argentine'
-
   OR pays = 'Bahamas'
-
   OR pays = 'Barbade'
-
   OR pays = 'Belize'
-
   OR pays = 'Bolivie'
-
   OR pays = 'Bresil'
-
   OR pays = 'Canada'
-
   OR pays = 'Chili'
-
   OR pays = 'Colombie'
-
   OR pays = 'Costa Rica'
-
   OR pays = 'Cuba'
-
   OR pays = 'Republique dominicaine'
-
   OR pays = 'Dominique'
-
   OR pays = 'Equateur'
-
   OR pays = 'Etats-Unis'
-
   OR pays = 'Grenade'
-
   OR pays = 'Guatemala'
-
   OR pays = 'Guyana'
-
   OR pays = 'Haiti'
-
   OR pays = 'Honduras'
-
   OR pays = 'Jamaique'
-
   OR pays = 'Mexique'
-
   OR pays = 'Nicaragua'
-
   OR pays = 'Panama'
-
   OR pays = 'Paraguay'
-
   OR pays = 'Perou'
-
   OR pays = 'Saint-Christophe-et-Nieves'
-
   OR pays = 'Sainte-Lucie'
-
   OR pays = 'Saint-Vincent-et-les-Grenadines'
-
   OR pays = 'Salvador'
-
   OR pays = 'Suriname'
-
   OR pays = 'Trinite-et-Tobago'
-
   OR pays = 'Uruguay'
-
   OR pays = 'Venezuela'
-
   UNION ALL
-
   SELECT *
-
   FROM Clients_Autres
-
   WHERE NOT(pays = 'Norvege'
-
   OR pays = 'Suede'
-
   OR pays = 'Danemark'
-
   OR pays = 'Islande'
-
   OR pays = 'Finlande'
-
   OR pays = 'Royaume-Uni'
-
   OR pays = 'Irlande'
-
   OR pays = 'Belgique'
-
   OR pays = 'Luxembourg'
-
   OR pays = 'Pays_Bas'
-
   OR pays = 'Allemagne'
-
   OR pays = 'Pologne'
-
   OR pays = 'Espagne'
-
   OR pays = 'Portugal'
-
   OR pays = 'Andorre'
-
   OR pays = 'France'
-
   OR pays = 'Gibraltar'
-
   OR pays = 'Italie'
-
   OR pays = 'Saint-Marin'
-
   OR pays = 'Vatican'
-
   OR pays = 'Malte'
-
   OR pays = 'Albanie'
-
   OR pays = 'Bosnie-Herzegovine'
-
   OR pays = 'Croatie'
-
   OR pays = 'Grece'
-
   OR pays = 'Macedoine'
-
   OR pays = 'Montenegro'
-
   OR pays = 'Serbie'
-
   OR pays = 'Slovenie'
-
   OR pays = 'Bulgarie'
-
   OR pays = 'Autriche'
-
   OR pays = 'Suisse'
-
   OR pays = 'Antigua-et-Barbuda'
-
   OR pays = 'Argentine'
-
   OR pays = 'Bahamas'
-
   OR pays = 'Barbade'
-
   OR pays = 'Belize'
-
   OR pays = 'Bolivie'
-
   OR pays = 'Bresil'
-
   OR pays = 'Canada'
-
   OR pays = 'Chili'
-
   OR pays = 'Colombie'
-
   OR pays = 'Costa Rica'
-
   OR pays = 'Cuba'
-
   OR pays = 'Republique dominicaine'
-
   OR pays = 'Dominique'
-
   OR pays = 'Equateur'
-
   OR pays = 'Etats-Unis'
-
   OR pays = 'Grenade'
-
   OR pays = 'Guatemala'
-
   OR pays = 'Guyana'
-
   OR pays = 'Haiti'
-
   OR pays = 'Honduras'
-
   OR pays = 'Jamaique'
-
   OR pays = 'Mexique'
-
   OR pays = 'Nicaragua'
-
   OR pays = 'Panama'
-
   OR pays = 'Paraguay'
-
   OR pays = 'Perou'
-
   OR pays = 'Saint-Christophe-et-Nieves'
-
   OR pays = 'Sainte-Lucie'
-
   OR pays = 'Saint-Vincent-et-les-Grenadines'
-
   OR pays = 'Salvador'
-
   OR pays = 'Suriname'
-
   OR pays = 'Trinite-et-Tobago'
-
   OR pays = 'Uruguay'
-
   OR pays = 'Venezuela')
-
 );
 ````
 
 ````sql
 CREATE OR REPLACE VIEW Stock AS (
-
   SELECT *
-
   FROM Stock_EuN
-
   WHERE pays = 'Norvege'
-
   OR pays = 'Suede'
-
   OR pays = 'Danemark'
-
   OR pays = 'Islande'
-
   OR pays = 'Finlande'
-
   OR pays = 'Royaume-Uni'
-
   OR pays = 'Irlande'
-
   OR pays = 'Belgique'
-
   OR pays = 'Luxembourg'
-
   OR pays = 'Pays_Bas'
-
   OR pays = 'Allemagne'
-
   OR pays = 'Pologne'
-
   UNION ALL
-
   SELECT *
-
   FROM Stock_EuS
-
   WHERE pays = 'Espagne'
-
   OR pays = 'Portugal'
-
   OR pays = 'Andorre'
-
   OR pays = 'France'
-
   OR pays = 'Gibraltar'
-
   OR pays = 'Italie'
-
   OR pays = 'Saint-Marin'
-
   OR pays = 'Vatican'
-
   OR pays = 'Malte'
-
   OR pays = 'Albanie'
-
   OR pays = 'Bosnie-Herzegovine'
-
   OR pays = 'Croatie'
-
   OR pays = 'Grece'
-
   OR pays = 'Macedoine'
-
   OR pays = 'Montenegro'
-
   OR pays = 'Serbie'
-
   OR pays = 'Slovenie'
-
   OR pays = 'Bulgarie'
-
   OR pays = 'Autriche'
-
   OR pays = 'Suisse'
-
   UNION ALL
-
   SELECT *
-
   FROM Stock_A
-
   WHERE pays = 'Antigua-et-Barbuda'
-
   OR pays = 'Argentine'
-
   OR pays = 'Bahamas'
-
   OR pays = 'Barbade'
-
   OR pays = 'Belize'
-
   OR pays = 'Bolivie'
-
   OR pays = 'Bresil'
-
   OR pays = 'Canada'
-
   OR pays = 'Chili'
-
   OR pays = 'Colombie'
-
   OR pays = 'Costa Rica'
-
   OR pays = 'Cuba'
-
   OR pays = 'Republique dominicaine'
-
   OR pays = 'Dominique'
-
   OR pays = 'Equateur'
-
   OR pays = 'Etats-Unis'
-
   OR pays = 'Grenade'
-
   OR pays = 'Guatemala'
-
   OR pays = 'Guyana'
-
   OR pays = 'Haiti'
-
   OR pays = 'Honduras'
-
   OR pays = 'Jamaique'
-
   OR pays = 'Mexique'
-
   OR pays = 'Nicaragua'
-
   OR pays = 'Panama'
-
   OR pays = 'Paraguay'
-
   OR pays = 'Perou'
-
   OR pays = 'Saint-Christophe-et-Nieves'
-
   OR pays = 'Sainte-Lucie'
-
   OR pays = 'Saint-Vincent-et-les-Grenadines'
-
   OR pays = 'Salvador'
-
   OR pays = 'Suriname'
-
   OR pays = 'Trinite-et-Tobago'
-
   OR pays = 'Uruguay'
-
   OR pays = 'Venezuela'
-
   UNION ALL
-
   SELECT *
-
   FROM Stock_Autres
-
   WHERE NOT(pays = 'Norvege'
-
   OR pays = 'Suede'
-
   OR pays = 'Danemark'
-
   OR pays = 'Islande'
-
   OR pays = 'Finlande'
-
   OR pays = 'Royaume-Uni'
-
   OR pays = 'Irlande'
-
   OR pays = 'Belgique'
-
   OR pays = 'Luxembourg'
-
   OR pays = 'Pays_Bas'
-
   OR pays = 'Allemagne'
-
   OR pays = 'Pologne'
-
   OR pays = 'Espagne'
-
   OR pays = 'Portugal'
-
   OR pays = 'Andorre'
-
   OR pays = 'France'
-
   OR pays = 'Gibraltar'
-
   OR pays = 'Italie'
-
   OR pays = 'Saint-Marin'
-
   OR pays = 'Vatican'
-
   OR pays = 'Malte'
-
   OR pays = 'Albanie'
-
   OR pays = 'Bosnie-Herzegovine'
-
   OR pays = 'Croatie'
-
   OR pays = 'Grece'
-
   OR pays = 'Macedoine'
-
   OR pays = 'Montenegro'
-
   OR pays = 'Serbie'
-
   OR pays = 'Slovenie'
-
   OR pays = 'Bulgarie'
-
   OR pays = 'Autriche'
-
   OR pays = 'Suisse'
-
   OR pays = 'Antigua-et-Barbuda'
-
   OR pays = 'Argentine'
-
   OR pays = 'Bahamas'
-
   OR pays = 'Barbade'
-
   OR pays = 'Belize'
-
   OR pays = 'Bolivie'
-
   OR pays = 'Bresil'
-
   OR pays = 'Canada'
-
   OR pays = 'Chili'
-
   OR pays = 'Colombie'
-
   OR pays = 'Costa Rica'
-
   OR pays = 'Cuba'
-
   OR pays = 'Republique dominicaine'
-
   OR pays = 'Dominique'
-
   OR pays = 'Equateur'
-
   OR pays = 'Etats-Unis'
-
   OR pays = 'Grenade'
-
   OR pays = 'Guatemala'
-
   OR pays = 'Guyana'
-
   OR pays = 'Haiti'
-
   OR pays = 'Honduras'
-
   OR pays = 'Jamaique'
-
   OR pays = 'Mexique'
-
   OR pays = 'Nicaragua'
-
   OR pays = 'Panama'
-
   OR pays = 'Paraguay'
-
   OR pays = 'Perou'
-
   OR pays = 'Saint-Christophe-et-Nieves'
-
   OR pays = 'Sainte-Lucie'
-
   OR pays = 'Saint-Vincent-et-les-Grenadines'
-
   OR pays = 'Salvador'
-
   OR pays = 'Suriname'
-
   OR pays = 'Trinite-et-Tobago'
-
   OR pays = 'Uruguay'
-
   OR pays = 'Venezuela')
-
 );
 ````
 
 ````sql
 CREATE OR REPLACE VIEW Commandes AS (
-
   SELECT Co_EuN.*
-
   FROM Commandes_EuN Co_EuN JOIN Clients_EuN Cl_EuN ON (Co_EuN.code_client = Cl_EuN.code_client)
-
   WHERE pays = 'Norvege'
-
   OR pays = 'Suede'
-
   OR pays = 'Danemark'
-
   OR pays = 'Islande'
-
   OR pays = 'Finlande'
-
   OR pays = 'Royaume-Uni'
-
   OR pays = 'Irlande'
-
   OR pays = 'Belgique'
-
   OR pays = 'Luxembourg'
-
   OR pays = 'Pays_Bas'
-
   OR pays = 'Allemagne'
-
   OR pays = 'Pologne'
-
   UNION ALL
-
   SELECT Co_EuS.*
-
   FROM Commandes_EuS Co_EuS JOIN Clients_EuS Cl_EuS ON (Co_EuS.code_client = Cl_EuS.code_client)
-
   WHERE pays = 'Espagne'
-
   OR pays = 'Portugal'
-
   OR pays = 'Andorre'
-
   OR pays = 'France'
-
   OR pays = 'Gibraltar'
-
   OR pays = 'Italie'
-
   OR pays = 'Saint-Marin'
-
   OR pays = 'Vatican'
-
   OR pays = 'Malte'
-
   OR pays = 'Albanie'
-
   OR pays = 'Bosnie-Herzegovine'
-
   OR pays = 'Croatie'
-
   OR pays = 'Grece'
-
   OR pays = 'Macedoine'
-
   OR pays = 'Montenegro'
-
   OR pays = 'Serbie'
-
   OR pays = 'Slovenie'
-
   OR pays = 'Bulgarie'
-
   OR pays = 'Autriche'
-
   OR pays = 'Suisse'
-
   UNION ALL
-
   SELECT Co_A.*
-
   FROM Commandes_A Co_A JOIN Clients_A Cl_A ON (Co_A.code_client = Cl_A.code_client)
-
   WHERE pays = 'Antigua-et-Barbuda'
-
   OR pays = 'Argentine'
-
   OR pays = 'Bahamas'
-
   OR pays = 'Barbade'
-
   OR pays = 'Belize'
-
   OR pays = 'Bolivie'
-
   OR pays = 'Bresil'
-
   OR pays = 'Canada'
-
   OR pays = 'Chili'
-
   OR pays = 'Colombie'
-
   OR pays = 'Costa Rica'
-
   OR pays = 'Cuba'
-
   OR pays = 'Republique dominicaine'
-
   OR pays = 'Dominique'
-
   OR pays = 'Equateur'
-
   OR pays = 'Etats-Unis'
-
   OR pays = 'Grenade'
-
   OR pays = 'Guatemala'
-
   OR pays = 'Guyana'
-
   OR pays = 'Haiti'
-
   OR pays = 'Honduras'
-
   OR pays = 'Jamaique'
-
   OR pays = 'Mexique'
-
   OR pays = 'Nicaragua'
-
   OR pays = 'Panama'
-
   OR pays = 'Paraguay'
-
   OR pays = 'Perou'
-
   OR pays = 'Saint-Christophe-et-Nieves'
-
   OR pays = 'Sainte-Lucie'
-
   OR pays = 'Saint-Vincent-et-les-Grenadines'
-
   OR pays = 'Salvador'
-
   OR pays = 'Suriname'
-
   OR pays = 'Trinite-et-Tobago'
-
   OR pays = 'Uruguay'
-
   OR pays = 'Venezuela'
-
   UNION ALL
-
   SELECT Co_Autres.*
-
   FROM Commandes_Autres Co_Autres JOIN Clients_Autres Cl_Autres ON (Co_Autres.code_client = Cl_Autres.code_client)
-
   WHERE NOT(pays = 'Norvege'
-
   OR pays = 'Suede'
-
   OR pays = 'Danemark'
-
   OR pays = 'Islande'
-
   OR pays = 'Finlande'
-
   OR pays = 'Royaume-Uni'
-
   OR pays = 'Irlande'
-
   OR pays = 'Belgique'
-
   OR pays = 'Luxembourg'
-
   OR pays = 'Pays_Bas'
-
   OR pays = 'Allemagne'
-
   OR pays = 'Pologne'
-
   OR pays = 'Espagne'
-
   OR pays = 'Portugal'
-
   OR pays = 'Andorre'
-
   OR pays = 'France'
-
   OR pays = 'Gibraltar'
-
   OR pays = 'Italie'
-
   OR pays = 'Saint-Marin'
-
   OR pays = 'Vatican'
-
   OR pays = 'Malte'
-
   OR pays = 'Albanie'
-
   OR pays = 'Bosnie-Herzegovine'
-
   OR pays = 'Croatie'
-
   OR pays = 'Grece'
-
   OR pays = 'Macedoine'
-
   OR pays = 'Montenegro'
-
   OR pays = 'Serbie'
-
   OR pays = 'Slovenie'
-
   OR pays = 'Bulgarie'
-
   OR pays = 'Autriche'
-
   OR pays = 'Suisse'
-
   OR pays = 'Antigua-et-Barbuda'
-
   OR pays = 'Argentine'
-
   OR pays = 'Bahamas'
-
   OR pays = 'Barbade'
-
   OR pays = 'Belize'
-
   OR pays = 'Bolivie'
-
   OR pays = 'Bresil'
-
   OR pays = 'Canada'
-
   OR pays = 'Chili'
-
   OR pays = 'Colombie'
-
   OR pays = 'Costa Rica'
-
   OR pays = 'Cuba'
-
   OR pays = 'Republique dominicaine'
-
   OR pays = 'Dominique'
-
   OR pays = 'Equateur'
-
   OR pays = 'Etats-Unis'
-
   OR pays = 'Grenade'
-
   OR pays = 'Guatemala'
-
   OR pays = 'Guyana'
-
   OR pays = 'Haiti'
-
   OR pays = 'Honduras'
-
   OR pays = 'Jamaique'
-
   OR pays = 'Mexique'
-
   OR pays = 'Nicaragua'
-
   OR pays = 'Panama'
-
   OR pays = 'Paraguay'
-
   OR pays = 'Perou'
-
   OR pays = 'Saint-Christophe-et-Nieves'
-
   OR pays = 'Sainte-Lucie'
-
   OR pays = 'Saint-Vincent-et-les-Grenadines'
-
   OR pays = 'Salvador'
-
   OR pays = 'Suriname'
-
   OR pays = 'Trinite-et-Tobago'
-
   OR pays = 'Uruguay'
-
   OR pays = 'Venezuela')
-
 );
+````
 
+````sql
 CREATE OR REPLACE VIEW Details_Commandes AS (
-
   SELECT DC_EuN.*
-
   FROM (Details_Commandes_EuN DC_EuN JOIN Commandes_EuN Co_EuN ON (Co_EuN.no_commande = DC_EuN.no_commande))
-
       JOIN Clients_EuN Cl_EuN ON (Cl_EuN.code_client = Co_EuN.code_client)
-
   WHERE pays = 'Norvege'
-
   OR pays = 'Suede'
-
   OR pays = 'Danemark'
-
   OR pays = 'Islande'
-
   OR pays = 'Finlande'
-
   OR pays = 'Royaume-Uni'
-
   OR pays = 'Irlande'
-
   OR pays = 'Belgique'
-
   OR pays = 'Luxembourg'
-
   OR pays = 'Pays_Bas'
-
   OR pays = 'Allemagne'
-
   OR pays = 'Pologne'
-
   UNION ALL
-
   SELECT DC_EuS.*
-
   FROM (Details_Commandes_EuS DC_EuS JOIN Commandes_EuS Co_EuS ON (Co_EuS.no_commande = DC_EuS.no_commande))
-
       JOIN Clients_EuS Cl_EuS ON (Cl_EuS.code_client = Co_EuS.code_client)
-
   WHERE pays = 'Espagne'
-
   OR pays = 'Portugal'
-
   OR pays = 'Andorre'
-
   OR pays = 'France'
-
   OR pays = 'Gibraltar'
-
   OR pays = 'Italie'
-
   OR pays = 'Saint-Marin'
-
   OR pays = 'Vatican'
-
   OR pays = 'Malte'
-
   OR pays = 'Albanie'
-
   OR pays = 'Bosnie-Herzegovine'
-
   OR pays = 'Croatie'
-
   OR pays = 'Grece'
-
   OR pays = 'Macedoine'
-
   OR pays = 'Montenegro'
-
   OR pays = 'Serbie'
-
   OR pays = 'Slovenie'
-
   OR pays = 'Bulgarie'
-
   OR pays = 'Autriche'
-
   OR pays = 'Suisse'
-
   UNION ALL
-
   SELECT DC_A.*
-
   FROM (Details_Commandes_A DC_A JOIN Commandes_A Co_A ON (Co_A.no_commande = DC_A.no_commande))
-
       JOIN Clients_A Cl_A ON (Cl_A.code_client = Co_A.code_client)
-
   WHERE pays = 'Antigua-et-Barbuda'
-
   OR pays = 'Argentine'
-
   OR pays = 'Bahamas'
-
   OR pays = 'Barbade'
-
   OR pays = 'Belize'
-
   OR pays = 'Bolivie'
-
   OR pays = 'Bresil'
-
   OR pays = 'Canada'
-
   OR pays = 'Chili'
-
   OR pays = 'Colombie'
-
   OR pays = 'Costa Rica'
-
   OR pays = 'Cuba'
-
   OR pays = 'Republique dominicaine'
-
   OR pays = 'Dominique'
-
   OR pays = 'Equateur'
-
   OR pays = 'Etats-Unis'
-
   OR pays = 'Grenade'
-
   OR pays = 'Guatemala'
-
   OR pays = 'Guyana'
-
   OR pays = 'Haiti'
-
   OR pays = 'Honduras'
-
   OR pays = 'Jamaique'
-
   OR pays = 'Mexique'
-
   OR pays = 'Nicaragua'
-
   OR pays = 'Panama'
-
   OR pays = 'Paraguay'
-
   OR pays = 'Perou'
-
   OR pays = 'Saint-Christophe-et-Nieves'
-
   OR pays = 'Sainte-Lucie'
-
   OR pays = 'Saint-Vincent-et-les-Grenadines'
-
   OR pays = 'Salvador'
-
   OR pays = 'Suriname'
-
   OR pays = 'Trinite-et-Tobago'
-
   OR pays = 'Uruguay'
-
   OR pays = 'Venezuela'
-
   UNION ALL
-
   SELECT DC_Autres.*
-
-  FROM (Details_Commandes_Autres DC_Autres JOIN Commandes_Autres Co_Autres ON (Co_Autres.no_commande = DC_Autres.no_commande))
-
+  FROM (Details_Commandes_Autres DC_Autres JOIN Commandes_Autres Co_Autres ON (Co_Autres.no_commande = C_Autres.no_commande))
       JOIN Clients_Autres Cl_Autres ON (Cl_Autres.code_client = Co_Autres.code_client)
-
   WHERE NOT(pays = 'Norvege'
-
   OR pays = 'Suede'
-
   OR pays = 'Danemark'
-
   OR pays = 'Islande'
-
   OR pays = 'Finlande'
-
   OR pays = 'Royaume-Uni'
-
   OR pays = 'Irlande'
-
   OR pays = 'Belgique'
-
   OR pays = 'Luxembourg'
-
   OR pays = 'Pays_Bas'
-
   OR pays = 'Allemagne'
-
   OR pays = 'Pologne'
-
   OR pays = 'Espagne'
-
   OR pays = 'Portugal'
-
   OR pays = 'Andorre'
-
   OR pays = 'France'
-
   OR pays = 'Gibraltar'
-
   OR pays = 'Italie'
-
   OR pays = 'Saint-Marin'
-
   OR pays = 'Vatican'
-
   OR pays = 'Malte'
-
   OR pays = 'Albanie'
-
   OR pays = 'Bosnie-Herzegovine'
-
   OR pays = 'Croatie'
-
   OR pays = 'Grece'
-
   OR pays = 'Macedoine'
-
   OR pays = 'Montenegro'
-
   OR pays = 'Serbie'
-
   OR pays = 'Slovenie'
-
   OR pays = 'Bulgarie'
-
   OR pays = 'Autriche'
-
   OR pays = 'Suisse'
-
   OR pays = 'Antigua-et-Barbuda'
-
   OR pays = 'Argentine'
-
   OR pays = 'Bahamas'
-
   OR pays = 'Barbade'
-
   OR pays = 'Belize'
-
   OR pays = 'Bolivie'
-
   OR pays = 'Bresil'
-
   OR pays = 'Canada'
-
   OR pays = 'Chili'
-
   OR pays = 'Colombie'
-
   OR pays = 'Costa Rica'
-
   OR pays = 'Cuba'
-
   OR pays = 'Republique dominicaine'
-
   OR pays = 'Dominique'
-
   OR pays = 'Equateur'
-
   OR pays = 'Etats-Unis'
-
   OR pays = 'Grenade'
-
   OR pays = 'Guatemala'
-
   OR pays = 'Guyana'
-
   OR pays = 'Haiti'
-
   OR pays = 'Honduras'
-
   OR pays = 'Jamaique'
-
   OR pays = 'Mexique'
-
   OR pays = 'Nicaragua'
-
   OR pays = 'Panama'
-
   OR pays = 'Paraguay'
-
   OR pays = 'Perou'
-
   OR pays = 'Saint-Christophe-et-Nieves'
-
   OR pays = 'Sainte-Lucie'
-
   OR pays = 'Saint-Vincent-et-les-Grenadines'
-
   OR pays = 'Salvador'
-
   OR pays = 'Suriname'
-
   OR pays = 'Trinite-et-Tobago'
-
   OR pays = 'Uruguay'
-
   OR pays = 'Venezuela')
-
 );
 ````
 
@@ -4617,257 +2796,145 @@ Nous avons testé, pour chaque table, que tous les tuples présents dans la nouv
 
 ````sql
 -- Test CLIENTS
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.CLIENTS@LINK_A_R
-
     MINUS
-
     SELECT * FROM CLIENTS
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM CLIENTS
-
     MINUS
-
     SELECT * FROM Ryori.CLIENTS@LINK_A_R
-
   )
-
 );
 ````
  
 `````sql
 -- Test EMPLOYES
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.EMPLOYES@LINK_A_R
-
     MINUS
-
     SELECT * FROM EMPLOYES
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM EMPLOYES
-
     MINUS
-
     SELECT * FROM Ryori.EMPLOYES@LINK_A_R
-
   )
-
 );
 ````
- 
+
 ````sql
 -- Test COMMANDES
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.COMMANDES@LINK_A_R
-
     MINUS
-
     SELECT * FROM COMMANDES
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM COMMANDES
-
     MINUS
-
     SELECT * FROM Ryori.COMMANDES@LINK_A_R
-
   )
-
 );
 ````
  
 ````sql
 -- Test DETAILS_COMMANDES
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.DETAILS_COMMANDES@LINK_A_R
-
     MINUS
-
     SELECT * FROM DETAILS_COMMANDES
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM DETAILS_COMMANDES
-
     MINUS
-
     SELECT * FROM Ryori.DETAILS_COMMANDES@LINK_A_R
-
   )
-
 );
 ````
  
 ````sql
 -- Test STOCK
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.STOCK@LINK_A_R
-
     MINUS
-
     SELECT * FROM STOCK
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM STOCK
-
     MINUS
-
     SELECT * FROM Ryori.STOCK@LINK_A_R
-
   )
-
 );
 ````
  
 ````sql
 -- Test PRODUITS
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.PRODUITS@LINK_A_R
-
     MINUS
-
     SELECT * FROM PRODUITS
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM PRODUITS
-
     MINUS
-
     SELECT * FROM Ryori.PRODUITS@LINK_A_R
-
   )
-
 );
 ````
  
 ````sql
 -- Test CATEGORIES
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.CATEGORIES@LINK_A_R
-
     MINUS
-
     SELECT * FROM CATEGORIES
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM CATEGORIES
-
     MINUS
-
     SELECT * FROM Ryori.CATEGORIES@LINK_A_R
-
   )
-
 );
 ````
  
 ````sql
 -- Test FOURNISSEURS
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.FOURNISSEURS@LINK_A_R
-
     MINUS
-
     SELECT * FROM FOURNISSEURS
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM FOURNISSEURS
-
     MINUS
-
     SELECT * FROM Ryori.FOURNISSEURS@LINK_A_R
-
   )
-
 );
 ````
 
@@ -4885,29 +2952,17 @@ Par exemple, la vue CLIENTS fut créée ainsi :
 
 ````sql
 CREATE OR REPLACE VIEW CLIENT AS (
-
 SELECT  *
-
 FROM CLIENTS_EuN
-
 UNION ALL
-
 SELECT *
-
 FROM CLIENTS_EuS
-
 UNION ALL
-
 SELECT *
-
 FROM CLIENTS_A
-
 UNION ALL
-
 SELECT *
-
 FROM CLIENTS_Autres
-
 );
 ````
 
@@ -4917,7 +2972,6 @@ Pour la 1ère requête, nous avons sélectionné l’ensemble des Clients atteig
 
 ````sql
 SELECT *
-
 FROM CLIENTS;
 ````
 
@@ -5015,9 +3069,7 @@ Pour la 2ème requête, nous avons sélectionné tout des clients présents sur 
 
 ````sql
 SELECT *
-
 FROM CLIENTS
-
 WHERE PAYS IN (‘Italie’, ‘Portugal’, ‘Espagne’);
 ````
 
@@ -5117,7 +3169,6 @@ Pour la 3ème requête, nous avons sélectionné tout les clients présents sur 
 
 ````sql
 SELECT *
-
 FROM CLIENTS_EuS;
 ````
 
@@ -5215,9 +3266,7 @@ Pour la 4ème requête, nous avons sélectionné des Clients présents dans plus
 
 ````sql
 SELECT *
-
 FROM CLIENTS
-
 WHERE PAYS IN (‘France’, ‘Italie’, ‘Mexique’);
 ````
 
@@ -5831,17 +3880,11 @@ Nous avons tout d’abord répliqué la table EMPLOYES, en REFRESH FAST, table p
 
 ````sql
 -- Réplication de la table EMPLOYES en REFRESH FAST
-
 DROP MATERIALIZED VIEW MV_EMPLOYES;
-
 CREATE MATERIALIZED VIEW MV_EMPLOYES
-
 REFRESH FAST
-
 NEXT sysdate + (300/86400)
-
 AS
-
 SELECT * FROM EMPLOYES;
 ````
 
@@ -5859,33 +3902,19 @@ Nous avons vérifié que chaque tuple présent dans la table Ryori était égale
 
 ````sql
 -- Test EMPLOYES 
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM frobion.EMPLOYES@LINK_A
-
     MINUS
-
     SELECT * FROM EMPLOYES
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM EMPLOYES
-
     MINUS
-
     SELECT * FROM frobion.EMPLOYES@LINK_A
-
   )
-
 );
 ````
  
@@ -5916,17 +3945,11 @@ Nous avons par la suite répliqué la table CATEGORIES, en REFRESH COMPLETE, tab
 
 ````sql
 -- Réplication de la table CATEGORIES en REFRESH COMPLETE
-
 DROP MATERIALIZED VIEW MV_CATEGORIES;
-
 CREATE MATERIALIZED VIEW MV_CATEGORIES
-
 REFRESH COMPLETE
-
 NEXT sysdate + (300/86400)
-
 AS
-
 SELECT * FROM CATEGORIES;
 ````
 
@@ -5940,42 +3963,26 @@ Nous avons vérifié que chaque tuple présent dans la table Ryori était égale
 
 `````sql
 -- Test CATEGORIES
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.CATEGORIES@LINK_EuN_R
-
     MINUS
-
     SELECT * FROM CATEGORIES
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM CATEGORIES
-
     MINUS
-
     SELECT * FROM Ryori.CATEGORIES@LINK_EuN_R
-
   )
-
 );
 ````
   
-
- 
-
 Réponse :
-
+````txt
 0
+````
 
 Conclusion : Les tuples sont présents à l’identique dans les deux tables.
 
@@ -6001,17 +4008,11 @@ Nous ensuite répliqué la table PRODUITS, en REFRESH FAST, table présente dans
 
 ````sql
 -- Réplication de la table PRODUITS en REFRESH FAST
-
 DROP MATERIALIZED VIEW MV_PRODUITS;
-
 CREATE MATERIALIZED VIEW MV_PRODUITS
-
 REFRESH FAST
-
 NEXT sysdate + (300/86400)
-
 AS
-
 SELECT * FROM PRODUITS;
 ````
 
@@ -6029,40 +4030,26 @@ Nous avons vérifié que chaque tuple présent dans la table Ryori était égale
 
 ````sql
 -- Test PRODUITS
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM Ryori.PRODUITS@LINK_EuN_R
-
     MINUS
-
     SELECT * FROM PRODUITS
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM PRODUITS
-
     MINUS
-
     SELECT * FROM Ryori.PRODUITS@LINK_EuN_R
-
   )
-
 );
 ````
  
-
 Réponse :
-
+````txt
 0
+````
 
 Conclusion : Les tuples sont présents à l’identique dans les deux tables.
 
@@ -6100,9 +4087,7 @@ Ainsi, nous avons fait un LOG sur la table FOURNISSEURS, et nous leur avons donn
 
 ````sql
 CREATE MATERIALIZED VIEW LOG ON FOURNISSEURS;
-
 GRANT SELECT ON MLOG$_FOURNISSEURS TO FROBION;
-
 GRANT ON MLOG$_FOURNISSEURS TO DBRUNET;
 ````
 
@@ -6150,17 +4135,11 @@ Nous avons donc tout d’abord répliqué la table EMPLOYES, en REFRESH FAST, ta
 
 ````sql
 -- Réplication de la table EMPLOYES en REFRESH FAST sur le site Europe du Sud
-
 CREATE  MATERIALIZED VIEW MV_EMPLOYES
-
 REFRESH FAST
-
 NEXT SYSDATE + 1
-
 AS
-
 SELECT *
-
 FROM frobion.EMPLOYES@LINK_A;
 ````
 
@@ -6178,41 +4157,27 @@ Nous avons vérifié que chaque tuple présent dans la table Ryori était égale
 
 ````sql
 -- Test EMPLOYES 
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM frobion.EMPLOYES@LINK_A
-
     MINUS
-
     SELECT * FROM EMPLOYES
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM EMPLOYES
-
     MINUS
-
     SELECT * FROM frobion.EMPLOYES@LINK_A
-
   )
-
 );
 ````
- 
+
 
 Réponse :
-
+````txt
 0
-
+````
 Conclusion : Les tuples sont présents à l’identique dans les deux tables.
 
 Remarque : Ce test a été effectué après remplacement du synonyme EMPLOYES.
@@ -6237,17 +4202,11 @@ Nous avons par la suite répliqué la table FOURNISSEURS, en REFRESH COMPLETE, t
 
 ````sql
 -- Réplication de la table FOURNISSEURS en REFRESH COMPLETE sur le site Europe du Sud
-
 CREATE  MATERIALIZED VIEW MV_FOURNISSEURS
-
 REFRESH COMPLETE
-
 NEXT SYSDATE + 1
-
 AS
-
 SELECT *
-
 FROM csamborski.FOURNISSEURS@LINK_EuN;
 ````
 
@@ -6259,39 +4218,26 @@ Les droits sur cette table nous ayant été accordés plus tôt, aucune synchron
 
 ````sql
 -- Test FOURNISSEURS
-
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM csamborski.FOURNISSEURS@LINK_EuN
-
     MINUS
-
     SELECT * FROM FOURNISSEURS
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM FOURNISSEURS
-
     MINUS
-
     SELECT * FROM csamborski.FOURNISSEURS@LINK_EuN
-
   )
-
 );
 ````
 
 Réponse :
-
+````txt
 0
+````
 
 Conclusion : Les tuples sont présents à l’identique dans les deux tables.
 
@@ -6377,15 +4323,10 @@ Nous avons répliqué la table Fournisseurs en REFRESH FAST, avec un rafraîchis
 
 ````sql
 CREATE MATERIALIZED VIEW MV_Fournisseurs
-
 REFRESH FAST
-
 NEXT sysdate + (86400/86400)
-
 AS
-
 SELECT *
-
 FROM csamborski.Fournisseurs@link_A_EuN;
 ````
 
@@ -6399,29 +4340,17 @@ Nous avons vérifier que la table répliqué localement et la table présente ch
 
 ````sql
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM csamborski.Fournisseurs@LINK_A_EuN
-
     MINUS
-
     SELECT * FROM MV_Fournisseurs
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM MV_Fournisseurs
-
     MINUS
-
     SELECT * FROM csamborski.Fournisseurs@LINK_A_EuN)
-
 );
 ````
 
@@ -6449,15 +4378,10 @@ Nous avons ensuite créer le réplicat Catégories en REFRESH COMPLETE.
 
 ````sql
 CREATE MATERIALIZED VIEW MV_Categories
-
 REFRESH COMPLETE
-
 NEXT sysdate + (86400/86400) -- 1 day: 86400 sec / 86400 sec
-
 AS
-
 SELECT *
-
 FROM Categories;
 ````
 
@@ -6469,29 +4393,17 @@ Lors d’une réplication complète, le système recopie toute la table du site 
 
 ````sql
 SELECT COUNT(*)
-
 FROM (
-
   (
-
     SELECT * FROM dbrunet.Categories@LINK_A_EuS
-
     MINUS
-
     SELECT * FROM MV_Categories
-
   )
-
   UNION ALL
-
   (
-
     SELECT * FROM MV_Categories
-
     MINUS
-
     SELECT * FROM dbrunet.Categories@LINK_A_EuS)
-
 );
 ````
 
@@ -6575,9 +4487,7 @@ Pour la 1ère requête, nous avons effectué une jointure entre la base EMPLOYES
 
 ````sql
 SELECT *
-
 FROM EMPLOYES, COMMANDES
-
 WHERE EMPLOYES.NO_EMPLOYE=COMMANDES.NO_EMPLOYE;
 ````
 
