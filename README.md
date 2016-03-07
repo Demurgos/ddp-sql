@@ -1858,7 +1858,7 @@ FROM (
 );
 ````
  
-`````sql
+````sql
 -- Test DETAILS_COMMANDES
 SELECT COUNT(*)
 FROM (
@@ -1912,7 +1912,7 @@ FROM (
 );
 ````
  
-`````sql
+````sql
 -- Test CATEGORIES
 SELECT COUNT(*)
 FROM (
@@ -2812,7 +2812,7 @@ FROM (
 );
 ````
  
-`````sql
+````sql
 -- Test EMPLOYES
 SELECT COUNT(*)
 FROM (
@@ -3362,7 +3362,7 @@ A l’inverse, la table locale est ici consultée sur la correspondance de l’a
 
 ### 1. Requête 1
 
-`````sql
+````sql
 SELECT * FROM CLIENTS;
 ````
 
@@ -3961,7 +3961,7 @@ Les droits sur cette table nous ayant été accordés plus tôt, aucune synchron
 
 Nous avons vérifié que chaque tuple présent dans la table Ryori était également présent dans la table répliquée, et inversement.
 
-`````sql
+````sql
 -- Test CATEGORIES
 SELECT COUNT(*)
 FROM (
