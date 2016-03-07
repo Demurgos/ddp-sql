@@ -135,20 +135,20 @@ La table Commandes dépendant de Clients et la table DétailsCommandes dépendan
 Ces tables sont ainsi obtenues en effectuant les opérations suivantes:
 
 ````txt
-Commandes_EuN = Commandes **⋉**[Code_Client] Clients_EuN
-Commandes_EuS = Commandes **⋉**[Code_Client] Clients_EuS
-Commandes_A = Commandes **⋉**[Code_Client] Clients_A
-Commandes_Autres = Commandes **⋉**[Code_Client] Clients_Autres
+Commandes_EuN = Commandes ⋉[Code_Client] Clients_EuN
+Commandes_EuS = Commandes ⋉[Code_Client] Clients_EuS
+Commandes_A = Commandes ⋉[Code_Client] Clients_A
+Commandes_Autres = Commandes ⋉[Code_Client] Clients_Autres
 Commandes_ClientInconnu = σ[Code_Client is null] (Commandes)
 
-Details_Commandes_EuN= Details_Commandes **⋉**[No_Commande] Commandes_EuN
-Details_Commandes_EuS= Details_Commandes **⋉**[No_Commande] Commandes_EuS
-Details_Commandes_A= Details_Commandes **⋉**[No_Commande] Commandes_A
-Details_Commandes_Autres= Details_Commandes **⋉**[No_Commande] Commandes_Autres
+Details_Commandes_EuN= Details_Commandes ⋉[No_Commande] Commandes_EuN
+Details_Commandes_EuS= Details_Commandes ⋉[No_Commande] Commandes_EuS
+Details_Commandes_A= Details_Commandes ⋉[No_Commande] Commandes_A
+Details_Commandes_Autres= Details_Commandes ⋉[No_Commande] Commandes_Autres
 Details_Commandes_CommandeNull= σ[No_Commande is null] (Details_Commandes)
 ````
 
-Les contraintes d’intégrité indiquées sur le schéma de la base - « Code_Client is not null » pour la table Commandes et « No_Commande is not null » - permettent d’éliminer la dernière semi-équi-jointure (évitant ainsi un fragment supplémentaire pour les Commandes et les Détails_Commandes). Encore une fois, un tuple de ces deux tables ne peut pas être géré par deux sites différents, correspondant à un seul Client, un seul Pays et donc un seul site (la fragmentation sur la table Client permet la mise en place de 4 fragments distincts, comme démontré auparavant).
+Les contraintes d’intégrité indiquées sur le schéma de la base - `Code_Client is not null` pour la table Commandes et `No_Commande is not null` - permettent d’éliminer la dernière semi-équi-jointure (évitant ainsi un fragment supplémentaire pour les Commandes et les Détails_Commandes). Encore une fois, un tuple de ces deux tables ne peut pas être géré par deux sites différents, correspondant à un seul Client, un seul Pays et donc un seul site (la fragmentation sur la table Client permet la mise en place de 4 fragments distincts, comme démontré auparavant).
 
 ### 2. Fragmentation Verticale et mixte
 
@@ -1858,7 +1858,7 @@ FROM (
 );
 ````
  
-````sql
+`````sql
 -- Test DETAILS_COMMANDES
 SELECT COUNT(*)
 FROM (
@@ -1911,7 +1911,7 @@ FROM (
   )
 );
 ````
- 
+
 ````sql
 -- Test CATEGORIES
 SELECT COUNT(*)
@@ -1929,7 +1929,7 @@ FROM (
   )
 );
 ````
- 
+
 ````sql
 -- Test FOURNISSEURS
 SELECT COUNT(*)
@@ -2812,7 +2812,7 @@ FROM (
 );
 ````
  
-````sql
+`````sql
 -- Test EMPLOYES
 SELECT COUNT(*)
 FROM (
@@ -3362,7 +3362,7 @@ A l’inverse, la table locale est ici consultée sur la correspondance de l’a
 
 ### 1. Requête 1
 
-````sql
+`````sql
 SELECT * FROM CLIENTS;
 ````
 
@@ -3961,7 +3961,7 @@ Les droits sur cette table nous ayant été accordés plus tôt, aucune synchron
 
 Nous avons vérifié que chaque tuple présent dans la table Ryori était également présent dans la table répliquée, et inversement.
 
-````sql
+`````sql
 -- Test CATEGORIES
 SELECT COUNT(*)
 FROM (
